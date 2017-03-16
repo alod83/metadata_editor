@@ -2920,7 +2920,7 @@ $(document).ready(function() {
 
         //Scrolling
         css3: true,
-        scrollingSpeed: 700,
+        scrollingSpeed: 500,
         autoScrolling: true,
         fitToSection: true,
         fitToSectionDelay: 1000,
@@ -2931,22 +2931,23 @@ $(document).ready(function() {
         loopTop: false,
         loopHorizontal: false,
         continuousVertical: false,
-        normalScrollElements: '.fp-slides, .element2',
+        normalScrollElements: '.internal_slider',
         scrollOverflow: false,
         scrollOverflowOptions: null,
         touchSensitivity: 15,
         normalScrollElementTouchThreshold: 5,
 
         //Accessibility
-        keyboardScrolling: true,
+        mouseWheelScrolling: false,
+        keyboardScrolling: false,
         animateAnchor: true,
-        recordHistory: true,
+        recordHistory: false,
 
         //Design
         controlArrows: false,
         verticalCentered: true,
-        paddingBottom: '10px',
-        fixedElements: '#header, .footer',
+        paddingBottom: '0px',
+        fixedElements: '#header, #popup_container',
         responsiveWidth: 0,
         responsiveHeight: 0,
 
@@ -2964,4 +2965,5 @@ $(document).ready(function() {
         afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
         onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){}
     });
+    $.fn.fullpage.silentMoveTo(1, 0);
 });

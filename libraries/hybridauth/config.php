@@ -26,14 +26,14 @@ return
 				),
 				"Google" => array(
 					"enabled" => true,
-					"keys" => array("id" => "507062551249-uihd0rkn2tjmcv44l1h0gcshij8edknq.apps.googleusercontent.com", "secret" => "m_oT5feYxYlgA5EBmPcw1kvF"),
+					"keys" => array("id" => "538189115544-jr4qdhcmlsiddi5oskraillp9do2u50f.apps.googleusercontent.com", "secret" => "J3t_VU3Q2PSyxWy4_3jNynws"),
 					"scope" => "https://www.googleapis.com/auth/userinfo.profile ".
                                "https://www.googleapis.com/auth/userinfo.email"
 				),
 				"Facebook" => array(
 					"enabled" => true,
 					"keys" => array("id" => "735876226559625", "secret" => "38a1ae5051577521dcef38527a58e00c"),
-					"scope" => "email, user_about_me",
+					"scope"   => ['email', 'user_about_me', 'user_birthday', 'user_hometown'], // optional
 					"trustForwarded" => true
 				),
 				"Twitter" => array(
