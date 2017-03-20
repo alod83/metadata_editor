@@ -102,8 +102,8 @@ switch($request) {
 			$nomecompleto = $cognomepersona;
 		}
 
-		$query="SELECT DISTINCT ?person ?nome ?name ?wiki ?bio ?thumbedit ?viafedit ?birthedit ?birthplaceedit ?deathedit ?deathplaceedit 
-		WHERE { 
+		$query="SELECT DISTINCT ?person ?nome ?name ?wiki ?bio ?thumbedit ?viafedit ?birthedit ?birthplaceedit ?deathedit ?deathplaceedit
+		WHERE {
 			?person dbp:name ?name;
 			foaf:name ?nome;
 			foaf:isPrimaryTopicOf ?wiki;
@@ -114,7 +114,7 @@ switch($request) {
 			OPTIONAL {?person dbo:deathDate ?death} .
 			OPTIONAL {?person dbp:birthPlace ?birthplace} .
 			OPTIONAL {?person dbp:deathPlace ?deathplace} .
-			FILTER (lang(?bio) = 'en') 
+			FILTER (lang(?bio) = 'en')
 			VALUES (?name) {('$nomepersona $cognomepersona'@en)('$cognomepersona, $nomepersona'@en)('$nomecompleto'@en)}.
 			BIND (COALESCE(?thumbnail, '') AS ?thumbedit).
 			BIND (COALESCE(?viaf, '') AS ?viafedit).
@@ -148,17 +148,17 @@ switch($request) {
 
 			if ($abs == NULL){
 			$result["check"]="EMPTY";
-				echo json_encode($result);	
-			} 
-			else {		
+				echo json_encode($result);
+			}
+			else {
 				$result = str_replace('[', '', $result);
 				$result = str_replace(']', '', $result);
-				echo json_encode($result);			
+				echo json_encode($result);
 			}
 		}
 		else{
 			$result["check"]="CONNERROR";
-			echo json_encode($result);	
+			echo json_encode($result);
 		 }
 	break;
 
@@ -176,15 +176,15 @@ switch($request) {
 		if ($json_viaf2 !=null){
 			echo json_encode($json_viaf2);
 		}
-		else {	
+		else {
 			$test["check"]="EMPTY";
-			echo json_encode($test);	
+			echo json_encode($test);
 		}
 	break;
 
 	case "wiki_place" :
 		$place = $_REQUEST['luogo'];
-		$placeescaped = mysql_real_escape_string($place);
+		$placeescaped = mysqli_real_escape_string($conn, $place);
 		$placeedit = str_replace(' ', '_', $place);
 		$placeedit = str_replace("'", '%27', $placeedit);
 
@@ -196,7 +196,7 @@ switch($request) {
 			$results=$json["totalResultsCount"];
 			if ($results==0){
 				$result["check"]="EMPTY";
-				echo json_encode($result);	
+				echo json_encode($result);
 			}
 			else {
 				$geonames=$json["geonames"];
@@ -205,7 +205,7 @@ switch($request) {
 		}
 		else {
 			$result["check"]="CONNERROR";
-			echo json_encode($result);	
+			echo json_encode($result);
 		}
 
 		//query a dbpedia
@@ -224,7 +224,7 @@ switch($request) {
 		dbo:abstract ?est .
 		FILTER (lang(?est) = 'en')
 		VALUES ?name {'$placeedit'@en '$placeedit'@it}
-		FILTER (regex(str(?sameas),'http://sws.geonames.org/*')) 
+		FILTER (regex(str(?sameas),'http://sws.geonames.org/*'))
 		FILTER (regex(str(?sameas2),'http://it.dbpedia.org/*'))
 		}
 		LIMIT 2";
@@ -253,8 +253,8 @@ switch($request) {
 				$result = str_replace('[', '', $result);
 				$result = str_replace(']', '', $result);
 				echo json_encode($result);
-			} 
-			else {		
+			}
+			else {
 				$result = str_replace('[', '', $result);
 				$result = str_replace(']', '', $result);
 				echo json_encode($result);
@@ -262,11 +262,11 @@ switch($request) {
 		}
 		else{
 			$result["check"]="CONNERROR";
-			echo json_encode($result);	
-		}		
+			echo json_encode($result);
+		}
 	break;
 
-	case "geonames" : 
+	case "geonames" :
 		$luogo = $_REQUEST['luogo'];
 		$luogo = str_replace(' ', '_', $luogo);
 		//query a geonames.org
@@ -279,7 +279,7 @@ switch($request) {
 			$results=$json["totalResultsCount"];
 			if ($results ==0){
 				$result["check"]="EMPTY";
-				echo json_encode($result);	
+				echo json_encode($result);
 			}
 			else{
 				$geonames=$json["geonames"];
@@ -288,21 +288,21 @@ switch($request) {
 		}
 		else{
 			$result["check"]="CONNERROR";
-			echo json_encode($result);	
+			echo json_encode($result);
 		}
 			/*
 				//$json_geo = json_encode($json_geo);
 				$json_geo = str_replace(']}', ']', $json_geo);
 				$json_geo = str_replace('{"totalResultsCount":', '', $json_geo);
 				$json_geo = preg_replace('/^[0-9]+/', '', $json_geo);
-				$json_geo = str_replace(',"geonames":', '', $json_geo);	
+				$json_geo = str_replace(',"geonames":', '', $json_geo);
 				echo ($json_geo);
-			*/		
+			*/
 	break;
 
 	case "google_place":
 		$place = $_REQUEST['luogo'];
-		$placeescaped = mysql_real_escape_string($place);
+		$placeescaped = mysqli_real_escape_string($conn, $place);
 		$placeedit = str_replace(' ', '_', $place);
 		$placeedit = str_replace("'", '%27', $placeedit);
 

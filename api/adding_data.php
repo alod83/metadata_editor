@@ -15,21 +15,21 @@ switch($request) {
 		$born_in=$_REQUEST['born_in'];
 		$died_in=$_REQUEST['died_in'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$linkwikiperson=$_REQUEST['linkwikiperson'];
 		$linkviafperson=$_REQUEST['linkviafperson'];
 		$picture=$_REQUEST['picture'];
-		
-		
+
+
 		if ($picture=="") {
 			$picture="imgs/avatar.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$check_id=select($conn, "SELECT MAX(person_id) AS lastId FROM persons");
 		$last_id=$check_id[0]['lastId'];
 		$key_id='per_'.($last_id+1);
-		
+
 		$check=select($conn, "SELECT * FROM persons WHERE name_surname='$name_surname'");
 		if ($check==NULL) {
 			$sql= "INSERT INTO persons (key_id, name, surname, name_surname, was_born, was_born_year, died, died_year, still_alive, born_in, died_in, bio, linkwikiperson, linkviafperson, picture) VALUES('$key_id','$name','$surname','$name_surname','$was_born','$was_born','$died','$died','$still_alive','$born_in','$died_in','$bio','$linkwikiperson', '$linkviafperson', '$picture')";
@@ -39,7 +39,7 @@ switch($request) {
 		}
 		else {
 			echo ("duplicate");
-		}	
+		}
 	break;
 
 	case "add_place":
@@ -52,7 +52,7 @@ switch($request) {
 		$long=$_REQUEST['long'];
 		$wiki=$_REQUEST['wiki'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($ename=="") {
@@ -61,7 +61,7 @@ switch($request) {
 
 		if ($picture=="") {
 			$picture="imgs/location.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$check_id=select($conn, "SELECT MAX(location_id) AS lastId FROM places");
@@ -92,7 +92,7 @@ switch($request) {
 		$lang=$_REQUEST['lang'];
 		$wiki=$_REQUEST['wiki'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($etitle=="") {
@@ -101,7 +101,7 @@ switch($request) {
 
 		if ($picture=="") {
 			$picture="imgs/museum.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$check_id=select($conn, "SELECT MAX(cho_id) AS lastId FROM cho");

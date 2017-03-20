@@ -17,14 +17,14 @@ switch($request) {
 		$born_in=$_REQUEST['born_in'];
 		$died_in=$_REQUEST['died_in'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$linkwikiperson=$_REQUEST['linkwikiperson'];
 		$linkviafperson=$_REQUEST['linkviafperson'];
 		$picture=$_REQUEST['picture'];
-		
+
 		if ($picture=="") {
 			$picture="imgs/avatar.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$sql= "UPDATE persons SET name='$name', surname='$surname', name_surname='$name_surname', was_born='$was_born', was_born_year='$was_born', died='$died', died_year='$died', still_alive='$still_alive', born_in='$born_in', died_in='$died_in', bio='$bio', linkwikiperson='$linkwikiperson', linkviafperson='$linkviafperson', picture='$picture' WHERE key_id='$key_id'";
@@ -44,7 +44,7 @@ switch($request) {
 		$long=$_REQUEST['long'];
 		$wiki=$_REQUEST['wiki'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($ename=="") {
@@ -53,7 +53,7 @@ switch($request) {
 
 		if ($picture=="") {
 			$picture="imgs/location.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
 		$sql= "UPDATE places SET original_name='$oname', english_name='$ename', country='$country', region='$region', population='$population', latitude='$lat', longitude='$long', linkwikipedia='$wiki', description='$bio', picture='$picture' WHERE key_id='$key_id'";
@@ -75,7 +75,7 @@ switch($request) {
 		$lang=$_REQUEST['lang'];
 		$wiki=$_REQUEST['wiki'];
 		$bio=$_REQUEST['bio'];
-		$bio=mysql_real_escape_string($bio);
+		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($etitle=="") {
@@ -84,9 +84,9 @@ switch($request) {
 
 		if ($picture=="") {
 			$picture="imgs/museum.svg";
-			$picture=mysql_real_escape_string($picture);
+			$picture=mysqli_real_escape_string($conn, $picture);
 		}
-		
+
 		$sql= "UPDATE cho SET original_title='$otitle', english_title='$etitle', author='$author', author_id='$author_id', place='$place', creation_date='$cdate', issue_date='$idate', type='$type', language='$lang', linkwiki='$wiki', bio='$bio', picture='$picture' WHERE key_id='$key_id'";
 	    $res = mysqli_query($conn, $sql);
 	    if(!$res) die("Errore inserimento $sql".mysqli_errno($conn));

@@ -72,7 +72,7 @@ switch($request) {
 
 		$result=select($conn, "SELECT COUNT(*) AS elem_num, collections.name, collections.id, users.email
 			FROM collections
-			JOIN coll_associations ON coll_associations.coll_id=collections.id 
+			JOIN coll_associations ON coll_associations.coll_id=collections.id
 			JOIN users ON collections.user=users.id
 			WHERE users.email='$email'
 			GROUP BY collections.id
@@ -80,10 +80,10 @@ switch($request) {
 
 		/*$result=select($conn, "SELECT COUNT(*) AS elem_num, collections.name, collections.id, users.email, (CASE coll_associations.elem_type WHEN 'person' THEN persons.name_surname ELSE places.original_name END) AS elem_name, coll_associations.elem_id
 			FROM coll_associations
-			JOIN collections ON coll_associations.coll_id=collections.id 
+			JOIN collections ON coll_associations.coll_id=collections.id
 			JOIN users ON collections.user=users.id
 			JOIN persons ON coll_associations.elem_id=persons.person_id
-			JOIN places ON coll_associations.elem_id=places.location_id 
+			JOIN places ON coll_associations.elem_id=places.location_id
 			WHERE users.email='$email'
 			GROUP BY collections.id
 			");*/
@@ -93,7 +93,7 @@ switch($request) {
 	case "add_collection":
 		$email= $_REQUEST['email'];
 		$name= $_REQUEST['name'];
-		$name=mysql_real_escape_string($name);
+		$name=mysqli_real_escape_string($conn, $name);
 		$id=select($conn, "SELECT id FROM users WHERE email='$email'");
 		$id=$id[0]["id"];
 

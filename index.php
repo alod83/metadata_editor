@@ -45,11 +45,6 @@
 		<tr><td id="header_title"><span>Metadata Editor for Linked Data</span></td>
 		<?php //show social buttons or user name
 				if (!isset($_SESSION['name'])) {
-					/*echo ('<td id="header_login">Welcome! Are you new?</td>');
-					echo ('<td id="header_login_social">');
-					echo ('<img id="google" src="imgs/google_login.png"/>');
-					echo ('<img id="facebook" src="imgs/facebook_login.png"/>');
-					echo ('</td></tr></table>');*/
 					echo ('<td id="header_login">Welcome! Can you tell us about you?</td>');
 					echo ('<td id="header_login_console_opener">Login</td>');
 					echo ('<div id="login_console">
@@ -89,7 +84,7 @@
 					echo ('</tr></table>');*/
 				}
 		?>
-	</section> 
+	</section>
 	<section class="section" id="section1">
 		<div class="content slide">
 			<div id="internal_content">
