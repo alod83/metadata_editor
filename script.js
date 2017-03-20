@@ -132,7 +132,7 @@ function login() {
 						console.log(name, email)
 						$('#login_console_result').html('Login succesful!');
 						$('#login_console_result').css('color','green');
-						setTimeout(function(){window.location.replace("http://localhost/LPW/MetadataEditor/index.php?user="+name+"&email="+email)}, 500);
+						setTimeout(function(){window.location.replace("index.php?user="+name+"&email="+email)}, 500);
 					}
 				}
 			});
