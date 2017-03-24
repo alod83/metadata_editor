@@ -1,5 +1,7 @@
 $(window).ready(function () {
 
+	export_JSON();
+
 	$('*').click(function(){
 
 	});
@@ -2493,6 +2495,160 @@ function export_DB() {
 			},200);
 
 
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus, errorThrown);
+		}
+	});
+}
+
+var my_graph={};
+my_graph['\@id']='my_graph';
+var nodes=[];
+var links=[];
+function export_JSON() {
+	my_graph={};
+	my_graph['\@id']='my_graph';
+	nodes=[];
+	links=[];
+	get_nodes();
+	get_links();
+	//console.log(nodes);
+	//console.log(links);
+	setTimeout(function(){console.log(JSON.stringify(my_graph))},500);
+};
+
+function get_nodes() {
+	$.ajax({
+		type: "GET",
+		url: "api/ajax.php",
+		data: {request: "displayDB"}, //effettuo una chiamata ajax
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		success: function (result) {
+
+			var persons=result[0];
+			var places=result[1];
+			var cho=result[2];
+
+			$.each(persons, function(index,value){
+				var obj={};
+
+				obj['\@id']=value.key_id;
+				obj.label=value.name_surname;
+				if (value.bio=="") {
+					obj.description="No Desc";
+				}
+				else {
+					obj.description=value.bio;
+				}
+				$.each(value, function(k,prop){
+					if (k!="name_surname" && k!="key_id" && k!="bio") {
+						obj[k]=prop;
+					}
+				})
+				nodes.push(obj);
+			});
+
+			$.each(places, function(index,value){
+				var obj={};
+
+				obj['\@id']=value.key_id;
+				obj.label=value.original_name;
+				if (value.bio=="") {
+					obj.description="No Desc";
+				}
+				else {
+					obj.description=value.bio;
+				}
+				$.each(value, function(k,prop){
+					if (k!="original_name" && k!="key_id" && k!="bio") {
+						obj[k]=prop;
+					}
+				})
+				nodes.push(obj);
+			});
+
+			$.each(cho, function(index,value){
+				var obj={};
+				obj['\@id']=value.key_id;
+				obj.label=value.original_title;
+				if (value.bio=="") {
+					obj.description="No Desc";
+				}
+				else {
+					obj.description=value.bio;
+				}
+				$.each(value, function(k,prop){
+					if (k!="original_title" && k!="key_id" && k!="bio") {
+						obj[k]=prop;
+					}
+				})
+				nodes.push(obj);
+			});
+
+			my_graph.nodes=nodes;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus, errorThrown);
+		}
+	});
+}
+
+function get_links() {
+	$.ajax({
+		type: "GET",
+		url: "api/ajax.php",
+		data: {request: "displayDB"}, //effettuo una chiamata ajax
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		success: function (result) {
+
+			var persons=result[0];
+			var places=result[1];
+			var cho=result[2];
+
+			$.each(persons, function(index,value){
+				var obj={};
+				var key_id=value.key_id;
+
+				$.ajax({
+					type: "GET",
+					url: "api/ajax.php",
+					data: {request: "json_rel", key_id: key_id, type: 'person'}, //effettuo una chiamata ajax
+					contentType: "charset=UTF-8",
+					success: function (result) {
+						if (result.cho!=undefined){
+							$.each(result.cho,function(i,v){
+								var obj={};
+								obj.source=key_id;
+								obj.target=v;
+								obj.type="author";
+								links.push(obj);
+							});
+						}
+
+						if (result.birth!=undefined){
+							var obj={};
+							obj.source=key_id;
+							obj.target=result.birth;
+							obj.type="birthplace";
+							links.push(obj);
+						}
+
+						if (result.death!=undefined){
+							var obj={};
+							obj.source=key_id;
+							obj.target=result.death;
+							obj.type="deathplace";
+							links.push(obj);
+						}
+
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						console.log(textStatus, errorThrown);
+					}
+				});
+
+			my_graph.links=links;
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
