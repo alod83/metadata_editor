@@ -1,11 +1,5 @@
 $(window).ready(function () {
 
-	export_JSON();
-
-	$('*').click(function(){
-
-	});
-
 	$('#header_login_console_opener').click(function(){
 		$('#login_console').css('margin-top','0');
 	});
@@ -292,13 +286,9 @@ function isYear(txtDate) {
 //funzione che formatta la data nel formato dd/mm/yyyy
 function date_formatter(dateOb) {
 	var d = new Date(dateOb);
-	console.log(d);
 	var day = d.getDate();
-	console.log(day);
 	var month = d.getMonth() + 1;
-	console.log(month);
 	var year = d.getFullYear();
-	console.log(year);
 
 	if(isNaN(day) || isNaN(month)) {
 		return dateOb;
@@ -1156,24 +1146,23 @@ function export_collection(coll_id, name) {
 			files = zip.folder("csv");
 			dump = zip.folder("dump");
 
-	        var names=["persons","places","cho"];
-	        for (i=0; i<result.length; i++) {
-	        	if (result[i]!=null) {
-	        		JSONToCSVConvertor(result[i], name, names[i], true);
-	        	}
-	        }
-	        var dump_file;
-	        jQuery.get('dump/metadata_editor.sql', function(data) {
-			   dump_file=data;
-			   console.log(dump_file);
-			   dump.file('metadata_editor.csv', dump_file);
+			var names=["persons","places","cho"];
+			for (i=0; i<result.length; i++) {
+				if (result[i]!=null) {
+					JSONToCSVConvertor(result[i], name, names[i], true);
+				}
+			}
+			var dump_file;
+			jQuery.get('dump/metadata_editor.sql', function(data) {
+				dump_file=data;
+				setTimeout(function(){dump.file('metadata_editor.sql', dump_file)},100);
 			});
 
 			setTimeout(function(){
 				zip.generateAsync({type:"blob"})
 				.then(function(content) {
-				    // see FileSaver.js
-				    saveAs(content, name.toLowerCase().replace(/ /g,"_")+".zip");
+					// see FileSaver.js
+					saveAs(content, name.toLowerCase().replace(/ /g,"_")+".zip");
 				});
 			},200);
 
@@ -2273,8 +2262,9 @@ function displayDB() {
 			else {
 				$('#result .internal_slider').html("");
 				$('#result .internal_slider').append("<h1 id='result_title'>"+DBlength+" records in the Database:"+
-					"<br/><span id='DB_export'>Export <img src='imgs/file.svg' /><span></h1>");
-				$('#DB_export').click(function(){export_DB()});
+					"<br/><span id='DB_export'><img src='imgs/file.svg' /> Export: <span id='DB_export_csv'>CSV</span> or <span id='DB_export_json'>JSON-LD</span></span></h1>");
+				$('#DB_export_csv').click(function(){export_DB()});
+				$('#DB_export_json').click(function(){export_JSON()});
 			}
 
 			if (persons!=null) {
@@ -2473,24 +2463,23 @@ function export_DB() {
 			files = zip.folder("csv");
 			dump = zip.folder("dump");
 
-	        var names=["persons","places","cho"];
-	        for (i=0; i<result.length; i++) {
-	        	if (result[i]!=null) {
-	        		JSONToCSVConvertor(result[i], 'metadata_editor', names[i], true);
-	        	}
-	        }
-	        var dump_file;
-	        jQuery.get('dump/metadata_editor.sql', function(data) {
-			   dump_file=data;
-			   console.log(dump_file);
-			   dump.file('metadata_editor.csv', dump_file);
+			var names=["persons","places","cho"];
+			for (i=0; i<result.length; i++) {
+				if (result[i]!=null) {
+					JSONToCSVConvertor(result[i], 'metadata_editor', names[i], true);
+				}
+			}
+			var dump_file;
+			jQuery.get('dump/metadata_editor.sql', function(data) {
+				dump_file=data;
+				setTimeout(function(){dump.file('metadata_editor.sql', dump_file)},100);
 			});
 
 			setTimeout(function(){
 				zip.generateAsync({type:"blob"})
 				.then(function(content) {
-				    // see FileSaver.js
-				    saveAs(content, 'metadata_editor.zip');
+					// see FileSaver.js
+					saveAs(content, 'metadata_editor.zip');
 				});
 			},200);
 
@@ -2513,9 +2502,33 @@ function export_JSON() {
 	links=[];
 	get_nodes();
 	get_links();
-	//console.log(nodes);
-	//console.log(links);
-	setTimeout(function(){console.log(JSON.stringify(my_graph))},500);
+
+	zip = new JSZip();
+	var readme='----- Files downloaded from MetadataEditor -----\r\n\r\n'+
+	'• In the "dump" folder you can find the DataBase structure, we recommend to import that first, if you haven\'t already.\r\n'+
+	'• Each csv file is related to a single table (persons, places, cho). You can import each datalist into each table.\r\n'+
+	'• The first line of each csv file contains the table fileds, make sure to check it out in your import options.';
+	zip.file("README.txt", readme);
+	files = zip.folder("json");
+	dump = zip.folder("dump");
+
+	var dump_file;
+	jQuery.get('dump/metadata_editor.sql', function(data) {
+		dump_file=data;
+		setTimeout(function(){dump.file('metadata_editor.sql', dump_file)},100);
+	});
+
+	var json_file;
+	setTimeout(function(){json_file=JSON.stringify(my_graph)},500);
+	setTimeout(function(){files.file('metadata_editor.json',  json_file)},550);
+
+	setTimeout(function(){
+		zip.generateAsync({type:"blob"})
+		.then(function(content) {
+			// see FileSaver.js
+			saveAs(content, 'metadata_editor.zip');
+		});
+	},600);
 };
 
 function get_nodes() {
@@ -2647,6 +2660,7 @@ function get_links() {
 						console.log(textStatus, errorThrown);
 					}
 				});
+			});
 
 			my_graph.links=links;
 		},

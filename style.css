@@ -860,8 +860,13 @@ input[type=radio]:checked + label {
 
 #DB_export {
    color:grey;
-   cursor:pointer;
    font-size:.7em;
+   font-weight: normal;
+}
+
+#DB_export span {
+   color: #00B241;
+   cursor: pointer;
 }
 
 #DB_export img {
