@@ -43,6 +43,7 @@ switch($request) {
 		$lat=$_REQUEST['lat'];
 		$long=$_REQUEST['long'];
 		$wiki=$_REQUEST['wiki'];
+		$geonames=$_REQUEST['geonames'];
 		$bio=$_REQUEST['bio'];
 		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
@@ -56,7 +57,7 @@ switch($request) {
 			$picture=mysqli_real_escape_string($conn, $picture);
 		}
 
-		$sql= "UPDATE places SET original_name='$oname', english_name='$ename', country='$country', region='$region', population='$population', latitude='$lat', longitude='$long', linkwikipedia='$wiki', description='$bio', picture='$picture' WHERE key_id='$key_id'";
+		$sql= "UPDATE places SET original_name='$oname', english_name='$ename', country='$country', region='$region', population='$population', latitude='$lat', longitude='$long', linkwikipedia='$wiki', linkgeonames='$geonames', description='$bio', picture='$picture' WHERE key_id='$key_id'";
 	    $res = mysqli_query($conn, $sql);
 	    if(!$res) die("Errore inserimento $sql".mysqli_errno($conn));
 	    else echo ("OK");

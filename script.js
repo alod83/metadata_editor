@@ -1322,8 +1322,17 @@ function create_element(request, value) {
 		'<span class="result_bio">'+bio+'</span>'+
 		'<span class="result_divider"></span>'+
 		'<span class="result_sub">Links</span>'+
-		'<ul class="result_links"><li><a href="'+linkwiki+'">Wikipedia</a></li><li><a href="'+linkviaf+'">Viaf</a></li></ul>'+
-		'</div>'+
+		'<ul class="result_links">';
+		if (linkwiki!="") {
+			res+='<li><a href="'+linkwiki+'">Wikipedia</a></li>';
+		}
+		if (linkviaf!="") {
+			res+='<li><a href="'+linkviaf+'">Viaf</a></li>';
+		}
+		if (linkviaf=="" && linkwiki=="") {
+			res+='<li>No links given</li>';
+		}
+		res+='</ul></div>'+
 		'</div>';
 
 		$('#result .internal_slider').append(res);
@@ -1356,6 +1365,7 @@ function create_element(request, value) {
 		var mapid="map"+key_id; //id per la creazione delle mappe
 		var bio=value.description;
 		var linkwiki=value.linkwikipedia;
+		var linkgeonames=value.linkgeonames;
 
 		if (population=="0") {
 			population="--";
@@ -1395,8 +1405,17 @@ function create_element(request, value) {
 		'<span class="result_bio">'+bio+'</span>'+
 		'<span class="result_divider"></span>'+
 		'<span class="result_sub">Links</span>'+
-		'<ul class="result_links"><li><a href="'+linkwiki+'">Wikipedia</a></li></ul>'+
-		'</div>'+
+		'<ul class="result_links">';
+		if (linkwiki!="") {
+			res+='<li><a href="'+linkwiki+'">Wikipedia</a></li>';
+		}
+		if (linkgeonames!="") {
+			res+='<li><a href="'+linkgeonames+'">Geonames</a></li>';
+		}
+		if (linkgeonames=="" && linkwiki=="") {
+			res+='<li>No links given</li>';
+		}
+		res+='</ul></div>'+
 		'</div>';
 
 		$('#result .internal_slider').append(res);
@@ -1460,8 +1479,14 @@ function create_element(request, value) {
 		'<span class="result_bio">'+bio+'</span>'+
 		'<span class="result_divider"></span>'+
 		'<span class="result_sub">Links</span>'+
-		'<ul class="result_links"><li><a href="'+linkwiki+'">Wikipedia</a></li></ul>'+
-		'</div>'+
+		'<ul class="result_links">';
+		if (linkwiki!="") {
+			res+='<li><a href="'+linkwiki+'">Wikipedia</a></li>';
+		}
+		else {
+			res+='<li>No links given</li>';
+		}
+		res+='</ul></div>'+
 		'</div>';
 
 		$('#result .internal_slider').append(res);
@@ -1712,6 +1737,7 @@ function create_assoc_element(request, value) {
 		var mapid="map"+key_id; //id per la creazione delle mappe
 		var bio=value.description;
 		var linkwiki=value.linkwikipedia;
+		var linkgeonames=value.linkgeonames;
 
 		if (population=="0") {
 			population="--";
@@ -2982,6 +3008,7 @@ function check_wiki(request) {
 						$("#input_bio").val(result[0].est.value);
 						$("#input_picture").val(result[0].thumbnail.value);
 						$("#input_wiki").val(result[0].wiki.value);
+						$("#input_geonames").val(result[0].sameas.value);
 					}
 				}
 			});
@@ -3095,6 +3122,7 @@ function check_geonames(){
 					$("#input_population").val(result[0].population);
 					$("#input_latitude").val(result[0].lat);
 					$("#input_longitude").val(result[0].lng);
+					$("#input_geonames").val('http://sws.geonames.org/'+result[0].geonameId);
 				}
 			}
 		});
@@ -3225,6 +3253,7 @@ function add_data(request) {
 		data["lat"]=$('#input_latitude').val();
 		data["long"]=$('#input_longitude').val();
 		data["wiki"]=$('#input_wiki').val();
+		data["geonames"]=$('#input_geonames').val();
 		data["bio"]=$('#input_bio').val();
 		data["picture"]=$('#input_picture').val();
 
@@ -3560,6 +3589,7 @@ function modify_data(request, key_id, action) {
 			data["lat"]=$('#input_latitude').val();
 			data["long"]=$('#input_longitude').val();
 			data["wiki"]=$('#input_wiki').val();
+			data["geonames"]=$('#input_geonames').val();
 			data["bio"]=$('#input_bio').val();
 			data["picture"]=$('#input_picture').val();
 

@@ -51,8 +51,8 @@ switch($request) {
 			<div><textarea id="input_bio"></textarea></div>
 			<div class="label"><span class="fullspan">Image Link</span></div>
 			<div><input id="input_picture" class="input_fullwidth"></input></div>
-			<div class="label"><span class="fullspan">Wikipedia Link</span></div>
-			<div><input id="input_wiki" class="input_fullwidth"></input></div>
+			<div class="label"><span class="midspan">Wikipedia Link</span><span class="midspan">Geonames Link</span></div>
+			<div><input id="input_wiki" class="input_midwidth"></input><input id="input_geonames" class="input_midwidth"></input></div>
 			<div id="input_send">Send</div>
 			</form>');
 	break;

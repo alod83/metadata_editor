@@ -51,6 +51,7 @@ switch($request) {
 		$lat=$_REQUEST['lat'];
 		$long=$_REQUEST['long'];
 		$wiki=$_REQUEST['wiki'];
+		$geonames=$_REQUEST['geonames'];
 		$bio=$_REQUEST['bio'];
 		$bio=mysqli_real_escape_string($conn, $bio);
 		$picture=$_REQUEST['picture'];
@@ -70,7 +71,7 @@ switch($request) {
 
 		$check=select($conn, "SELECT * FROM places WHERE original_name='$oname' AND english_name='$ename'");
 		if ($check==NULL) {
-			$sql= "INSERT INTO places (key_id, original_name, english_name, country, region, population, latitude, longitude, linkwikipedia, description, picture) VALUES('$key_id','$oname','$ename','$country','$region','$population','$lat','$long','$wiki','$bio','$picture')";
+			$sql= "INSERT INTO places (key_id, original_name, english_name, country, region, population, latitude, longitude, linkwikipedia, linkgeonames, description, picture) VALUES('$key_id','$oname','$ename','$country','$region','$population','$lat','$long','$wiki','$geonames','$bio','$picture')";
 		    $res = mysqli_query($conn, $sql);
 		    if(!$res) die("Errore inserimento $sql".mysqli_errno($conn));
 		    else echo ("OK");
