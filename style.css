@@ -805,7 +805,17 @@ input[type=radio]:checked + label {
 
 .collection_button img {
    cursor:pointer;
-   width:15px;
+   width:18px;
+}
+
+#collection_button_export{
+   color: grey;
+   font-size: 13px;
+}
+
+#collection_button_export span {
+   color: #00B241;
+   cursor: pointer;
 }
 
 #collections_container .collection:hover {

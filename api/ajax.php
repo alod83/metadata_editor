@@ -398,49 +398,83 @@ switch($request) {
 
 	case "json_rel":
 		$id = $_REQUEST['key_id'];
-		$keywords = mysqli_real_escape_string($conn, $_REQUEST['keywords']);
-		$type=$_REQUEST['type'];
+		$type = $_REQUEST['type'];
 		$final=[];
-		if ($type=="person") {
-			$result=select($conn, "SELECT * FROM persons WHERE key_id='$id'");
-			$name=$result[0]["name_surname"];
-			$cho=select($conn, "SELECT * FROM cho WHERE author='$name'");
-			$cho_id=[];
-			if ($cho != null) {
-				foreach ($cho as $key => $value) {
-					array_push($cho_id,$value["key_id"]);
-				}
-				$final["cho"]=$cho_id;
+
+		$result=select($conn, "SELECT * FROM persons WHERE key_id='$id'");
+		$name=$result[0]["name_surname"];
+
+		$cho=select($conn, "SELECT * FROM cho WHERE author='$name'");
+		$cho_id=[];
+		if ($cho != null) {
+			foreach ($cho as $key => $value) {
+				array_push($cho_id,$value["key_id"]);
 			}
-
-			$birthplace=$result[0]["born_in"];
-			$birthplace = explode(",", $birthplace)[0];
-			$birth=select($conn, "SELECT * FROM places WHERE original_name='$birthplace' OR english_name='$birthplace'");
-			if ($birth != null) {
-				$birth_id=$birth[0]["key_id"];
-				$final["birth"]=$birth_id;
-			}
-
-			$deathplace=$result[0]["died_in"];
-			$deathplace = explode(",", $deathplace)[0];
-			$death=select($conn, "SELECT * FROM places WHERE original_name='$deathplace' OR english_name='$deathplace'");
-			if ($death != null) {
-				$death_id=$death[0]["key_id"];
-				$final["death"]=$death_id;
-			}
-
-
-			echo json_encode($final);
+			$final["cho"]=$cho_id;
 		}
-		elseif ($type=="place") {
-			$result=select($conn, "SELECT * FROM places WHERE original_name='$keywords' OR english_name='$keywords'");
-			echo json_encode($result);
+
+		$birthplace=$result[0]["born_in"];
+		$birthplace = explode(",", $birthplace)[0];
+		$birth=select($conn, "SELECT * FROM places WHERE original_name='$birthplace' OR english_name='$birthplace'");
+		if ($birth != null) {
+			$birth_id=$birth[0]["key_id"];
+			$final["birth"]=$birth_id;
 		}
-		elseif ($_REQUEST['type']=="cho") {
-			$result=select($conn, "SELECT * FROM cho WHERE author='$keywords'");
-			echo json_encode($result);
+
+		$deathplace=$result[0]["died_in"];
+		$deathplace = explode(",", $deathplace)[0];
+		$death=select($conn, "SELECT * FROM places WHERE original_name='$deathplace' OR english_name='$deathplace'");
+		if ($death != null) {
+			$death_id=$death[0]["key_id"];
+			$final["death"]=$death_id;
 		}
+
+		echo json_encode($final);
 	break;
+
+	case "json_rel_coll":
+		$id = $_REQUEST['key_id'];
+		$type=$_REQUEST['type'];
+		$collid = $_REQUEST['collid'];
+		$final=[];
+
+		$result=select($conn, "SELECT * FROM persons WHERE key_id='$id'");
+		$name=$result[0]["name_surname"];
+
+		$cho=select($conn, "SELECT * FROM cho
+			JOIN coll_associations ON cho.key_id=coll_associations.elem_id
+			WHERE cho.author='$name' AND coll_associations.coll_id='$collid'");
+		$cho_id=[];
+		if ($cho != null) {
+			foreach ($cho as $key => $value) {
+				array_push($cho_id,$value["key_id"]);
+			}
+			$final["cho"]=$cho_id;
+		}
+
+		$birthplace=$result[0]["born_in"];
+		$birthplace = explode(",", $birthplace)[0];
+		$birth=select($conn, "SELECT * FROM places
+			JOIN coll_associations ON places.key_id=coll_associations.elem_id
+			WHERE (original_name='$birthplace' OR english_name='$birthplace') AND coll_associations.coll_id='$collid'");
+		if ($birth != null) {
+			$birth_id=$birth[0]["key_id"];
+			$final["birth"]=$birth_id;
+		}
+
+		$deathplace=$result[0]["died_in"];
+		$deathplace = explode(",", $deathplace)[0];
+		$death=select($conn, "SELECT * FROM places
+			JOIN coll_associations ON places.key_id=coll_associations.elem_id
+			WHERE (original_name='$deathplace' OR english_name='$deathplace') AND coll_associations.coll_id='$collid'");
+		if ($death != null) {
+			$death_id=$death[0]["key_id"];
+			$final["death"]=$death_id;
+		}
+
+		echo json_encode($final);
+	break;
+
 }
 //close connection
 closeDB($conn);

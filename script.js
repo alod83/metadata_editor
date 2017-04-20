@@ -368,10 +368,10 @@ function collection_manager() {
 				$.each(result, function(index,value) {
 					res+='<tr class="collection" collid="'+value.coll_id+'">'+
 					'<td class="collection_name">'+value.coll_name+'</td>'+
-					'<td class="collection_button"><img src="imgs/len.svg" class="collection_view" name="'+value.coll_name+'" collid="'+value.coll_id+'" alt="View Collection"/></td>'+
-					'<td class="collection_button"><img src="imgs/edit.svg" class="collection_edit" name="'+value.coll_name+'" collid="'+value.coll_id+'" alt="Edit Collection" /></td>'+
-					'<td class="collection_button"><img src="imgs/file.svg" class="collection_export" name="'+value.coll_name+'" collid="'+value.coll_id+'" alt="Export Collection" /></td>'+
-					'<td class="collection_button"><img src="imgs/bin.svg" class="collection_delete" name="'+value.coll_name+'" collid="'+value.coll_id+'" alt="Delete Collection" /></td>'+
+					'<td class="collection_button"><img src="imgs/len.svg" class="collection_view" name="'+value.coll_name+'" collid="'+value.coll_id+'" title="View Collection"/></td>'+
+					'<td class="collection_button"><img src="imgs/edit.svg" class="collection_edit" name="'+value.coll_name+'" collid="'+value.coll_id+'" title="Edit Collection" /></td>'+
+					'<td class="collection_button" id="collection_button_export" collid="'+value.coll_id+'"><img src="imgs/file.svg" class="collection_export" name="'+value.coll_name+'" collid="'+value.coll_id+'" title="Export in CSV" /></td>'+
+					'<td class="collection_button"><img src="imgs/bin.svg" class="collection_delete" name="'+value.coll_name+'" collid="'+value.coll_id+'" title="Delete Collection" /></td>'+
 					'</tr>';
 				});
 				res+='<tr id="new_collection">'+
@@ -382,9 +382,23 @@ function collection_manager() {
 				$('#result .internal_slider').append(res);
 				$(".collection_view").click(function(){view_collection($(this).attr('collid'), $(this).attr('name'))});
 				$(".collection_edit").click(function(){edit_collection($(this).attr('collid'), $(this).attr('name'))});
-				$(".collection_export").click(function(){export_collection($(this).attr('collid'), $(this).attr('name'))});
+				//$(".collection_export").click(function(){export_collection($(this).attr('collid'), $(this).attr('name'))});
 				$(".collection_delete").click(function(){delete_collection($(this).attr('collid'), $(this).attr('name'))});
 				$("#new_collection").click(function(){new_collection()});
+				$(".collection_export").click(function(){
+					var collid=$(this).attr('collid');
+					var name=$(this).attr('name');
+					$(this).parent().html("<span class='coll_export_csv'>CSV</span> or <span class='coll_export_json'>JSON-LD</span></span>");
+					$(".coll_export_csv").click(function(){
+						export_collection(collid, name);
+						setTimeout(function(){collection_manager()},300);
+					});
+					$(".coll_export_json").click(function(){
+						export_JSON_coll(name,collid);
+						setTimeout(function(){collection_manager()},300);
+					});
+
+				});
 			}
 		});
 	$.fn.fullpage.moveTo(1, 1);
@@ -1162,7 +1176,7 @@ function export_collection(coll_id, name) {
 				zip.generateAsync({type:"blob"})
 				.then(function(content) {
 					// see FileSaver.js
-					saveAs(content, name.toLowerCase().replace(/ /g,"_")+".zip");
+					saveAs(content, name.toLowerCase().replace(/ /g,"_")+"_CSV.zip");
 				});
 			},200);
 
@@ -2505,7 +2519,7 @@ function export_DB() {
 				zip.generateAsync({type:"blob"})
 				.then(function(content) {
 					// see FileSaver.js
-					saveAs(content, 'metadata_editor.zip');
+					saveAs(content, 'metadata_editor_CSV.zip');
 				});
 			},200);
 
@@ -2526,14 +2540,15 @@ function export_JSON() {
 	my_graph['\@id']='my_graph';
 	nodes=[];
 	links=[];
+
 	get_nodes();
 	get_links();
 
 	zip = new JSZip();
 	var readme='----- Files downloaded from MetadataEditor -----\r\n\r\n'+
 	'• In the "dump" folder you can find the DataBase structure, we recommend to import that first, if you haven\'t already.\r\n'+
-	'• Each csv file is related to a single table (persons, places, cho). You can import each datalist into each table.\r\n'+
-	'• The first line of each csv file contains the table fileds, make sure to check it out in your import options.';
+	'• JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write. It is based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale. JSON-LD is an ideal data format for programming environments, REST Web services, and unstructured databases such as CouchDB and MongoDB.\r\n'+
+	'• Learn more about JSON-LD here -> http://json-ld.org/';
 	zip.file("README.txt", readme);
 	files = zip.folder("json");
 	dump = zip.folder("dump");
@@ -2552,7 +2567,7 @@ function export_JSON() {
 		zip.generateAsync({type:"blob"})
 		.then(function(content) {
 			// see FileSaver.js
-			saveAs(content, 'metadata_editor.zip');
+			saveAs(content, 'metadata_editor_JSON.zip');
 		});
 	},600);
 };
@@ -2642,8 +2657,6 @@ function get_links() {
 		success: function (result) {
 
 			var persons=result[0];
-			var places=result[1];
-			var cho=result[2];
 
 			$.each(persons, function(index,value){
 				var obj={};
@@ -2689,6 +2702,184 @@ function get_links() {
 			});
 
 			my_graph.links=links;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus, errorThrown);
+		}
+	});
+}
+
+function export_JSON_coll(name,collid) {
+	my_graph={};
+	my_graph['\@id']='my_graph';
+	nodes=[];
+	links=[];
+
+	get_nodes_coll(collid);
+	get_links_coll(collid);
+
+	zip = new JSZip();
+	var readme='----- Files downloaded from MetadataEditor -----\r\n\r\n'+
+	'• In the "dump" folder you can find the DataBase structure, we recommend to import that first, if you haven\'t already.\r\n'+
+	'• JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write. It is based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale. JSON-LD is an ideal data format for programming environments, REST Web services, and unstructured databases such as CouchDB and MongoDB.\r\n'+
+	'• Learn more about JSON-LD here -> http://json-ld.org/';
+	zip.file("README.txt", readme);
+	files = zip.folder("json");
+	dump = zip.folder("dump");
+
+	var name=name.toLowerCase().replace(/ /g,"_");
+
+	var dump_file;
+	jQuery.get('dump/metadata_editor.sql', function(data) {
+		dump_file=data;
+		setTimeout(function(){dump.file('metadata_editor.sql', dump_file)},100);
+	});
+
+	var json_file;
+	setTimeout(function(){json_file=JSON.stringify(my_graph)},500);
+	setTimeout(function(){files.file(name+'.json',  json_file)},550);
+
+	setTimeout(function(){
+		zip.generateAsync({type:"blob"})
+		.then(function(content) {
+			// see FileSaver.js
+			saveAs(content, name+'_JSON.zip');
+		});
+	},600);
+};
+
+function get_nodes_coll(collid) {
+	$.ajax({
+		type: "GET",
+		url: "api/collections.php",
+		data: {request: "view_collection2", id:collid}, //effettuo una chiamata ajax
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		success: function (result) {
+
+			var persons=result[0];
+			var places=result[1];
+			var cho=result[2];
+
+			$.each(persons, function(index,value){
+				var obj={};
+
+				obj['\@id']=value.key_id;
+				obj.label=value.name_surname;
+				if (value.bio=="") {
+					obj.description="No Desc";
+				}
+				else {
+					obj.description=value.bio;
+				}
+				$.each(value, function(k,prop){
+					if (k!="name_surname" && k!="key_id" && k!="bio") {
+						obj[k]=prop;
+					}
+				})
+				nodes.push(obj);
+			});
+
+			$.each(places, function(index,value){
+				var obj={};
+
+				obj['\@id']=value.key_id;
+				obj.label=value.original_name;
+				if (value.bio=="") {
+					obj.description="No Desc";
+				}
+				else {
+					obj.description=value.bio;
+				}
+				$.each(value, function(k,prop){
+					if (k!="original_name" && k!="key_id" && k!="bio") {
+						obj[k]=prop;
+					}
+				})
+				nodes.push(obj);
+			});
+
+			$.each(cho, function(index,value){
+				var obj={};
+				obj['\@id']=value.key_id;
+				obj.label=value.original_title;
+				if (value.bio=="") {
+					obj.description="No Desc";
+				}
+				else {
+					obj.description=value.bio;
+				}
+				$.each(value, function(k,prop){
+					if (k!="original_title" && k!="key_id" && k!="bio") {
+						obj[k]=prop;
+					}
+				})
+				nodes.push(obj);
+			});
+
+			my_graph.nodes=nodes;
+			console.log(nodes);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus, errorThrown);
+		}
+	});
+}
+
+function get_links_coll(collid) {
+	$.ajax({
+		type: "GET",
+		url: "api/collections.php",
+		data: {request: "view_collection2", id:collid}, //effettuo una chiamata ajax
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		success: function (result) {
+
+			var persons=result[0];
+
+			$.each(persons, function(index,value){
+				var obj={};
+				var key_id=value.key_id;
+
+				$.ajax({
+					type: "GET",
+					url: "api/ajax.php",
+					data: {request: "json_rel_coll", key_id: key_id, collid: collid}, //effettuo una chiamata ajax
+					contentType: "charset=UTF-8",
+					success: function (result) {
+						if (result.cho!=undefined){
+							$.each(result.cho,function(i,v){
+								var obj={};
+								obj.source=key_id;
+								obj.target=v;
+								obj.type="author";
+								links.push(obj);
+							});
+						}
+
+						if (result.birth!=undefined){
+							var obj={};
+							obj.source=key_id;
+							obj.target=result.birth;
+							obj.type="birthplace";
+							links.push(obj);
+						}
+
+						if (result.death!=undefined){
+							var obj={};
+							obj.source=key_id;
+							obj.target=result.death;
+							obj.type="deathplace";
+							links.push(obj);
+						}
+
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						console.log(textStatus, errorThrown);
+					}
+				});
+			});
+
+			my_graph.links=links;
+			console.log(links);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
