@@ -17,8 +17,8 @@ $(window).ready(function () {
 		populate_login_console('signin');
 	});
 
-	$('#header_title span').click(function(){
-		$.fn.fullpage.moveTo(1, 0);
+	$('#header_info').click(function(){
+		$.fn.fullpage.moveTo(1, 2);
 	});
 
 	$('#google').click(function(){
@@ -3875,3 +3875,40 @@ function modify_data(request, key_id, action) {
 		});
 	}
 };
+
+function import_csv(){
+	$.fn.fullpage.moveTo(2);
+	var content='<div id="section2_container"><h1>Import CSV files into the Database</h1>'+
+	'<h4><b>Instructions</b>: be sure your file contains the correct number of fields. The first line of your file must include the table fields, you can copy the first line from the string below:</h4>'+
+	'<select id="import_select"><option>Persons</option><option>Places</option><option>CHO</option></select>'+
+	'<input id="import_example"></input>'+
+	'<span class="divider"></span>'+
+	'<div id="dvImportSegments" class="fileupload ">'+
+	'<fieldset><legend>Upload your CSV File</legend><input type="file" name="File Upload" id="CSVfile" accept=".csv" /></fieldset>'+
+	'</div>'+
+	'</div>';
+	$('#section2 .content').html(content);
+
+	$('#CSVfile').change(function(){upload_CSV()});
+}
+
+// Method that reads and processes the selected file
+function upload_CSV() {
+	var csvFile = $('#CSVfile')[0].files[0];
+	data = new FormData();
+   data.append('file', csvFile);
+	console.log(data.get("file"));
+	$.ajax({
+    url: 'import_csv.php',
+    type: 'POST',
+    processData: false,
+    contentType: false,
+    data: data,
+    success: function (result, status, jqxhr) {
+        console.log(result);
+    },
+    error: function (jqxhr, status, msg) {
+        //error code
+    }
+});
+}

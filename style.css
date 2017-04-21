@@ -1,10 +1,22 @@
 html,body {
-   font-family:Lato, sans-serif;
+   font-family: 'Open Sans', sans-serif;
    height:100%;
    margin:0;
    padding:0;
    top:0;
    width:100%;
+}
+
+h4{
+   color:grey;
+   font-weight: normal;
+}
+
+.divider{
+   display: block;
+   border-bottom: 1px solid #ededed;
+   margin: 20px auto;
+   width: 80%;
 }
 
 #header {
@@ -24,28 +36,41 @@ html,body {
 }
 
 #header_title {
-   font-size:1.3em;
-   font-weight:700;
    text-align:left;
    width:40%;
-   z-index:100;
+   vertical-align: middle;
 }
 
-#header_title span {
+#header_title a {
+   display: inline-block;
    cursor:pointer;
+   line-height: 1.5em;
+   font-family: 'Roboto Slab', serif;
+   font-size:1.5em;
+   font-weight:700;
+   text-decoration: none;
+   color: black;
+}
+
+#header_info {
+   display: inline-block;
+   width: 18px;
+   margin-left: 10px;
+   cursor: pointer;
 }
 
 #header_login {
    padding-right:15px;
    text-align:right;
    width:auto;
+   font-size: 1em;
 }
 
 #header_login_console_opener {
-   background-color:#00B241;
+   background-color:#4CAF50;
    color:#fff;
    cursor:pointer;
-   font-weight:700;
+   font-weight: 600;
    text-align:center;
    width:150px;
 }
@@ -95,13 +120,13 @@ html,body {
 
 .login_console_button {
    -webkit-transition:all 0.3 ease;
-   background:#4CAF50;
+   background-color:#4CAF50;
    border:0;
-   color:#FFF;
+   color:#fff;
    cursor:pointer;
    display:block;
-   font-family:Roboto, sans-serif;
    font-size:14px;
+   font-weight: 600;
    margin:auto;
    outline:0;
    padding:10px;
@@ -131,7 +156,7 @@ html,body {
 }
 
 #login_console_divider {
-   border-bottom:1px solid #e5e5e5;
+   border-bottom:1px solid #f2f2f2;
    display:block;
    margin:30px auto;
    width:80%;
@@ -171,10 +196,10 @@ html,body {
 }
 
 #header_addmenu {
-   background-color:#00B241;
+   background-color:#4CAF50;
    color:#fff;
    cursor:pointer;
-   font-weight:700;
+   font-weight:600;
    text-align:center;
    width:130px;
 }
@@ -183,7 +208,7 @@ html,body {
    background-color:#50AAAC;
    color:#fff;
    cursor:pointer;
-   font-weight:700;
+   font-weight:600;
    text-align:center;
    width:130px;
 }
@@ -193,7 +218,7 @@ html,body {
    color:#fff;
    cursor:pointer;
    font-size:.8em;
-   font-weight:700;
+   font-weight:600;
    text-align:center;
    width:70px;
 }
@@ -242,20 +267,9 @@ html,body {
    margin-bottom:10px;
 }
 
-.add_console_input,.add_console_button {
-   background:#f2f2f2;
-   border:0;
-   box-sizing:border-box;
-   font-size:12px;
-   margin:0 0 10px;
-   outline:0;
-   padding:10px;
-   width:80%;
-}
-
 .add_console_button {
    -webkit-transition:all 0.3 ease;
-   background:#4CAF50;
+   background-color:#4CAF50;
    border:0;
    color:#FFF;
    cursor:pointer;
@@ -273,8 +287,15 @@ html,body {
    background:#43A047;
 }
 
+#add_console .divider{
+   display: block;
+   width: 80%;
+   margin:20px auto;
+   border-bottom: 1px solid #f2f2f2;
+}
+
 #adding_menu {
-   border-bottom:1px solid #ededed;
+   border-bottom:1px solid #f2f2f2;
    border-collapse:collapse;
    height:25px;
    margin:auto;
@@ -331,28 +352,34 @@ h2 {
    width:100%;
 }
 
+#main_title{
+   font-family: 'Roboto Slab', serif;
+   font-size: 4em;
+   font-weight: bold;
+   margin-bottom: 40px;
+}
+
+#main_subtitle{
+   font-weight: 600;
+   font-size: 1.4em;
+}
+
 #search_text {
    -webkit-transition:all .3s ease;
    align-items:center;
-   background:#f2f2f2;
-   border:1px solid #DCDCDC;
-   box-sizing:border-box;
+   background-color:#f2f2f2;
+   border:none;
+   box-sizing: border-box;
    display:block;
-   font-family:Lato, sans-serif;
    font-size:2em;
-   font-weight:lighter;
+   font-weight: lighter;
    height:55px;
    justify-content:center;
    margin:auto auto 20px;
    outline:0;
    padding:10px;
    text-align:center;
-   transition:all .3s ease;
    width:500px;
-}
-
-.search_text_alert {
-   border:1px solid red;
 }
 
 label {
@@ -361,8 +388,8 @@ label {
    display:inline-block;
    margin-bottom:20px;
    padding:10px 25px;
-   position:relative;
    width:50px;
+   font-weight: 600;
 }
 
 label:hover {
@@ -1138,16 +1165,29 @@ input[type=radio]:checked + label {
    display:block;
 }
 
-@media screen and (min-width: 1200px) {
-   #header_title {
-      font-size:1.5em;
-   }
+#section2_container h4{
+   width: 800px;
+}
 
-   #header_login,#header_login_logged {
-      font-size:1.2em;
-   }
+#import_example{
+   width: 600px;
+   line-height: 20px;
+   outline: none;
+}
 
-   .result_main_title {
-      margin-bottom:50px;
-   }
+#import_select{
+   outline: none;
+   height: 20px;
+   margin-right: 10px;
+}
+
+#credits ul{
+   list-style-type: none;
+   width: 100px;
+   margin: auto;
+   padding: 0;
+}
+
+#credits a {
+   color: black;
 }

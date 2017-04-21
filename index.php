@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Metadata Editor for Linked Data</title>
+	<title>WeME - A Web Metadata Editor</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 	<!--Fogli di stile-->
@@ -14,10 +14,13 @@
 	<script type="text/javascript" src="libraries/fullpage/fp.js"></script>
 	<script type="text/javascript" src="libraries/zip/dist/jszip.js"></script>
 	<script type="text/javascript" src="libraries/FileSaver.js"></script>
+	<script type="text/javascript" src="libraries/jquery_csv.js"></script>
 	<!--Icona-->
 	<link rel="icon" href="img/me.png" type="img/x-icon">
 	<!--Font-->
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,700,800|Roboto+Slab:400,700" rel="stylesheet">
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
 
 	<?php //connection with the database
 		include ("api/config.php");
@@ -42,7 +45,7 @@
 <div class="fullpage">
 	<section id="header">
 		<table id="header_container">
-		<tr><td id="header_title"><span>Metadata Editor for Linked Data</span></td>
+		<tr><td id="header_title"><a href="#1/0">&lt;WeME&gt; | A Web Metadata Editor</a><img id="header_info" src="imgs/info.svg" title="Info and Credits"/></span></td>
 		<?php //show social buttons or user name
 				if (!isset($_SESSION['name'])) {
 					echo ('<td id="header_login">Welcome! Can you tell us about you?</td>');
@@ -76,6 +79,8 @@
 						<div onclick="adding_menu(1)" class="add_console_button">New Person</div>
 						<div onclick="adding_menu(2)" class="add_console_button">New Place</div>
 						<div onclick="adding_menu(3)" class="add_console_button">New CHO</div>
+						<span class="divider"></span>
+						<div onclick="import_csv()" class="add_console_button">Import CSV</div>
 						</div></table>');
 					/*echo ("<table id='adding_menu'><tr>");
 					echo ('<td><a id="add_person" href="#2" onclick="adding_menu(1)">New Person</a></td>');
@@ -88,7 +93,8 @@
 	<section class="section" id="section1">
 		<div class="content slide">
 			<div id="internal_content">
-				<h2><img id="title_img" src="imgs/len.svg" />Search in the Database:</h2>
+				<h1 id="main_title">&lt;WeME&gt;</h1>
+				<h2 id="main_subtitle"><img id="title_img" src="imgs/len.svg" />Search in the Database</h2>
 				<form id="search_database">
 					<input type="radio" name="search_radio" value="person" id="search_radio_person"></input>
 					<label for="search_radio_person">Person</label>
@@ -108,6 +114,26 @@
 		<div class="content slide" id="result">
 			<div class="internal_slider">
 			</div>
+		</div>
+		<div class="content slide" id="credits">
+			<h1>&lt;WeME&gt; | A Web Metadata Editor</h1>
+			<h4>Info and Credits</h4>
+			<p>A web application created and designed by Francesco Sacchini.</p>
+			<p>The project uses the following libraries:</p>
+			<ul>
+				<li><a href="https://jquery.com/">jQuery</a></li>
+				<li><a href="http://alvarotrigo.com/fullPage/">FullPage.js</a></li>
+				<li><a href="https://stuk.github.io/jszip/">JSZip</a></li>
+				<li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
+				<li><a href=""></a></li>
+				<li><a href=""></a></li>
+				<li><a href=""></a></li>
+				<li><a href=""></a></li>
+				<li><a href=""></a></li>
+			</ul>
+			<span class="divider"></span>
+			<a class="github-button" href="https://github.com/alod83/metadata_editor/subscription" data-style="mega" data-count-href="/alod83/metadata_editor/watchers" data-count-api="/repos/alod83/metadata_editor#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch alod83/metadata_editor on GitHub">Watch on GitHub</a>
+
 		</div>
 	</section>
 	<section class="section" id="section2">
