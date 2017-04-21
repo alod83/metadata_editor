@@ -357,7 +357,8 @@ function collection_select() {
 function collection_manager() {
 	$('#result .internal_slider').html("");
 	var email=$('body').attr('email');
-	$('#result .internal_slider').append("<h1 id='result_title'>Your Collections:</h1>");
+	$('#result .internal_slider').append("<h1 id='coll_title'>Your Collections</h1>"+
+	"<h4 id='coll_subtitle'>Here you can visualize, edit, export and delete your collections.</h4>");
 	$.ajax({
 		type: "GET",
 		url: "api/collections.php",
@@ -2301,14 +2302,14 @@ function displayDB() {
 			}
 			else {
 				$('#result .internal_slider').html("");
-				$('#result .internal_slider').append("<h1 id='result_title'>"+DBlength+" records in the Database:"+
-					"<br/><span id='DB_export'><img src='imgs/file.svg' /> Export: <span id='DB_export_csv'>CSV</span> or <span id='DB_export_json'>JSON-LD</span></span></h1>");
+				$('#result .internal_slider').append("<h1 id='DB_title'>"+DBlength+" records in the Database:</h1>"+
+				"<h4 id='DB_subtitle'><img src='imgs/file.svg' /> Export: <span id='DB_export_csv'>CSV</span> or <span id='DB_export_json'>JSON-LD</span></h4>");
 				$('#DB_export_csv').click(function(){export_DB()});
 				$('#DB_export_json').click(function(){export_JSON()});
 			}
 
 			if (persons!=null) {
-				$('#result .internal_slider').append("<h2 class='result_subtitle' type='person'>"+persons.length+" Persons<img class='DB_arrow' type='person' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type' type='person'>"+persons.length+" Persons<img class='DB_arrow' type='person' src='imgs/arrow.svg' /></span>");
 				var person_res="<table class='DB_records_container' type='person'>";
 				person_res+='<thead><tr><td>Name</td><td>Birth Date</td><td>Birth Place</td><td>Death Date</td><td>Death Place</td><td class="centered">View</td></tr></thead>';
 				$.each(persons, function(index,value) {
@@ -2371,7 +2372,7 @@ function displayDB() {
 			}
 
 			if (places!=null) {
-				$('#result .internal_slider').append("<h2 type='places' class='result_subtitle'>"+places.length+" Places<img class='DB_arrow' type='places' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type' type='places'>"+places.length+" Places<img class='DB_arrow' type='places' src='imgs/arrow.svg' /></span>");
 				var places_res="<table class='DB_records_container' type='places'>";
 				places_res+='<thead><tr><td>Name</td><td>Region</td><td>Country</td><td>Population</td><td>Lat,Long</td><td class="centered">View</td></tr></thead>';
 				$.each(places, function(index,value) {
@@ -2421,7 +2422,7 @@ function displayDB() {
 			}
 
 			if (cho!=null) {
-				$('#result .internal_slider').append("<h2 type='cho' class='result_subtitle'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow' type='cho' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type' type='cho'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow' type='cho' src='imgs/arrow.svg' /></span>");
 				var cho_res="<table class='DB_records_container' type='cho'>";
 				cho_res+='<thead><tr><td>Title</td><td>Author</td><td>Place</td><td>Date</td><td>Type</td><td class="centered">View</td></tr></thead>';
 				$.each(cho, function(index,value) {
@@ -2466,11 +2467,11 @@ function displayDB() {
 			}
 
 			$('.DB_records_container').hide();
-			$('.result_subtitle').click(function(){
+			$('.DB_type').click(function(){
 				var type=$(this).attr('type');
 				$('.DB_records_container[type="'+type+'"]').toggle();
 				$('.DB_arrow[type="'+type+'"]').toggleClass("rotate");
-				$(this).toggleClass('result_subtitle_fw');
+				$(this).toggleClass('DB_type_fw');
 			})
 			$.fn.fullpage.moveTo(1, 1);
 			$('.view_record').click(function(){
