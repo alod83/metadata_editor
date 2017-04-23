@@ -159,6 +159,48 @@ switch($request) {
 	  	if(!$res) die("Errore inserimento $sql".mysqli_errno($conn));
 	  	else echo json_encode("Record added");
 	break;
+
+	case "coll_to_CSV":
+	$id=$_REQUEST['id'];
+	$result1=select($conn, "SELECT persons.*
+		FROM coll_associations
+		JOIN persons ON coll_associations.elem_id=persons.key_id
+		JOIN collections ON coll_associations.coll_id=collections.coll_id
+		WHERE coll_associations.coll_id='$id'");
+	$result2=select($conn, "SELECT places.*
+		FROM coll_associations
+		JOIN places ON coll_associations.elem_id=places.key_id
+		JOIN collections ON coll_associations.coll_id=collections.coll_id
+		WHERE coll_associations.coll_id='$id'");
+	$result3=select($conn, "SELECT cho.*
+		FROM coll_associations
+		JOIN cho ON coll_associations.elem_id=cho.key_id
+		JOIN collections ON coll_associations.coll_id=collections.coll_id
+		WHERE coll_associations.coll_id='$id'");
+	$result=array();
+
+	foreach ($result1 as $row) {
+		foreach ($row as $field) {
+			mysqli_real_escape_string($conn,$field);
+		}
+	}
+	foreach ($result2 as $row) {
+		foreach ($row as $field) {
+			mysqli_real_escape_string($conn,$field);
+		}
+	}
+	foreach ($result3 as $row) {
+		foreach ($row as $field) {
+			mysqli_real_escape_string($conn,$field);
+		}
+	}
+	array_push($result, $result1);
+	array_push($result, $result2);
+	array_push($result, $result3);
+
+	echo json_encode($result);
+	break;
+
 }
 
 ?>

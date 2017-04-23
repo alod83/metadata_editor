@@ -1147,7 +1147,7 @@ function export_collection(coll_id, name) {
 	$.ajax({
 		type: "GET",
 		url: "api/collections.php",
-		data: {id:coll_id, request: "view_collection2"}, //effettuo una chiamata ajax
+		data: {id:coll_id, request: "coll_to_CSV"}, //effettuo una chiamata ajax
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success: function (result) {
 			console.log(result)
@@ -3879,6 +3879,36 @@ function modify_data(request, key_id, action) {
 
 function import_csv(){
 	$.fn.fullpage.moveTo(2);
+	if (add_console==1) {
+		adding_menu_console();
+	}
+
+	var content3='<div class="row">'+
+		 '<div class="col-md-6 col-md-offset-0">'+
+			  '<form enctype="multipart/form-data" method="post" action="import_csv4.php">'+
+					'<div class="form-group">'+
+						 '<label for="file">Select .CSV file to Import</label>'+
+						 '<input name="file" type="file" class="form-control">'+
+					'</div>'+
+					'<div class="form-group">'+
+						 '<?php echo $message; ?>'+
+					'</div>'+
+					'<div class="form-group">'+
+						 '<input type="submit" name="submit" class="btn btn-primary" value="Submit"/>'+
+					'</div>'+
+			  '</form>'+
+			  '<div class="form-group">'+
+					'<?php echo $users; ?>'+
+			  '</div>'+
+		 '</div>'+
+	'</div>';
+
+	var content2='<form enctype="multipart/form-data" method="post" action="import_csv2.php"><table border="1"><tr>'+
+	'<td colspan="2" align="center"><strong>Import CSV file</strong></td></tr>'+
+	'<tr><td align="center">CSV File:</td><td><input type="file" name="file" id="file"></td></tr>'+
+	'<tr><td colspan="2" align="center"><input type="submit" value="submit"></td></tr>'+
+	'</table></form>';
+
 	var content='<div id="section2_container"><h1>Import CSV files into the Database</h1>'+
 	'<h4><b>Instructions</b>: be sure your file contains the correct number of fields. The first line of your file must include the table fields, you can copy the first line from the string below:</h4>'+
 	'<select id="import_select"><option>Persons</option><option>Places</option><option>CHO</option></select>'+
@@ -3886,9 +3916,9 @@ function import_csv(){
 	'<span class="divider"></span>'+
 	'<div id="dvImportSegments" class="fileupload ">'+
 	'<fieldset><legend>Upload your CSV File</legend><input type="file" name="File Upload" id="CSVfile" accept=".csv" /></fieldset>'+
-	'</div>'+
-	'</div>';
-	$('#section2 .content').html(content);
+	'</div></div>';
+
+	$('#section2 .content').html(content3);
 
 	$('#CSVfile').change(function(){upload_CSV()});
 }
