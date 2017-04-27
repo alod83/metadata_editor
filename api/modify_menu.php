@@ -10,6 +10,7 @@ switch($request) {
 	echo ('
 			<form id="data_input">
 			<h2 id="input_title">Update Person</h2>
+			<h4 id="input_subtitle">Here you can edit the data you need to change.</h4>
 			<div id="check_wiki" case="person">Check with DBPedia</div>
 			<div id="check_viaf" case="person">Check Viaf ID</div>
 			<div class="label"><span>Name*</span><span>Surname*</span></div>
@@ -35,6 +36,7 @@ switch($request) {
 	case "place":
 	echo ('<form id="data_input">
 			<h2 id="input_title">Updating Place</h2>
+			<h4 id="input_subtitle">Here you can edit the data you need to change.</h4>
 			<div id="check_wiki" case="place">Check with DBPedia</div>
 			<div id="check_geonames" case="place">Check with Geonames</div>
 			<div class="label"><span>Original Name*</span><span>English Name</span></div>
@@ -60,11 +62,10 @@ switch($request) {
 	case "cho":
 	echo ('<form id="data_input">
 			<h2 id="input_title">New Cultural Heritage Object</h2>
-
+			<h4 id="input_subtitle">Here you can edit the data you need to change.</h4>
 			<div class="label"><span>Original Title*</span><span>English Title</span></div>
 			<div><input type="text" id="input_otitle" edm="dc:title"></input>
 			<input type="text" id="input_etitle" edm="dcterms:alternative"></input></div>
-
 			<div class="label"><span>Author*</span><span>Place</span></div>
 			<div><input type="text" id="input_author" list="person_names" edm="dc:creator"></input>
 			<datalist id="person_names">

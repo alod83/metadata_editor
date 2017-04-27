@@ -10,6 +10,7 @@ switch($request) {
 	echo ('
 			<form id="data_input">
 			<h2 id="input_title">New Person</h2>
+			<h4 id="input_subtitle">Insert the data manually or click the buttons below to check for linked data.</h4>
 			<div id="check_wiki" case="person">Check with DBPedia</div>
 			<div id="check_viaf" case="person">Check Viaf ID</div>
 			<div class="label"><span>Name*</span><span>Surname*</span></div>
@@ -35,6 +36,7 @@ switch($request) {
 	case "add_place":
 	echo ('<form id="data_input">
 			<h2 id="input_title">New Place</h2>
+			<h4 id="input_subtitle">Insert the data manually or click the buttons below to check for linked data.</h4>
 			<div id="check_wiki" case="place">Check with DBPedia</div>
 			<div id="check_geonames" case="place">Check with Geonames</div>
 			<div class="label"><span>Original Name*</span><span>English Name</span></div>
@@ -60,7 +62,7 @@ switch($request) {
 	case "add_cho":
 	echo ('<form id="data_input">
 			<h2 id="input_title">New Cultural Heritage Object</h2>
-
+			<h4 id="input_subtitle">Insert the data manually. You can select persons and places present in the database.</h4>
 			<div class="label"><span>Original Title*</span><span>English Title</span></div>
 			<div><input type="text" id="input_otitle" edm="dc:title"></input>
 			<input type="text" id="input_etitle" edm="dcterms:alternative"></input></div>

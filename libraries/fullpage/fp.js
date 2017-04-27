@@ -97,7 +97,7 @@
         disableMouse: true,
 
         //fixing bug in iScroll with links: https://github.com/cubiq/iscroll/issues/783
-        click: true 
+        click: true
     };
 
     $.fn.fullpage = function(options) {
@@ -2920,10 +2920,10 @@ $(document).ready(function() {
 
         //Scrolling
         css3: true,
-        scrollingSpeed: 500,
+        scrollingSpeed: 400,
         autoScrolling: true,
         fitToSection: true,
-        fitToSectionDelay: 1000,
+        fitToSectionDelay: 300,
         scrollBar: false,
         easing: 'easeInOutCubic',
         easingcss3: 'ease',
@@ -2957,13 +2957,24 @@ $(document).ready(function() {
 
         //events
         onLeave: function(index, nextIndex, direction){
+           $.fn.fullpage.setAllowScrolling(false);
         },
         afterLoad: function(anchorLink, index){
+           $.fn.fullpage.setAllowScrolling(false);
         },
-        afterRender: function(){},
-        afterResize: function(){},
-        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
-        onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){}
+        afterRender: function(){
+           $.fn.fullpage.setAllowScrolling(false);
+        },
+        afterResize: function(){
+           $.fn.fullpage.setAllowScrolling(false);
+        },
+        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){
+           $.fn.fullpage.setAllowScrolling(false);
+        },
+        onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){
+           $.fn.fullpage.setAllowScrolling(false);
+        }
     });
     $.fn.fullpage.silentMoveTo(1, 0);
+    $.fn.fullpage.setAllowScrolling(false);
 });

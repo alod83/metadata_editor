@@ -45,7 +45,7 @@
 <div class="fullpage">
 	<section id="header">
 		<table id="header_container">
-		<tr><td id="header_title"><a href="#1/0">&lt;WeME&gt; | A Web Metadata Editor</a><img id="header_info" src="imgs/info.svg" title="Info and Credits"/></span></td>
+		<tr><td id="header_title"><a href="#1/0">&lt;WeME&gt; | A Web Metadata Editor</a></td>
 		<?php //show social buttons or user name
 				if (!isset($_SESSION['name'])) {
 					echo ('<td id="header_login">Welcome! Can you tell us about you?</td>');
@@ -94,7 +94,7 @@
 		<div class="content slide">
 			<div id="internal_content">
 				<h1 id="main_title">&lt;WeME&gt;</h1>
-				<h2 id="main_subtitle"><img id="title_img" src="imgs/len.svg" />Search in the Database</h2>
+				<h2 id="main_subtitle"><img src="imgs/len.svg" />Search in the Database</h2>
 				<form id="search_database">
 					<input type="radio" name="search_radio" value="person" id="search_radio_person"></input>
 					<label for="search_radio_person">Person</label>
@@ -106,9 +106,12 @@
 					<datalist id="type_list"></datalist>
 				</form>
 				<div id="search_button">Search</div>
-				<span id="search_or">or</span>
-				<p id="search_general_button">View the entire Database</p>
-				<p id="result"></p>
+				<span class="divider"></span>
+				<span id="info-tutorial_container">
+					<img class="main_bottom_icons" src="imgs/database.svg" title="View the database"><span id="search_general_button">Database</span>|
+					<img class="main_bottom_icons" src="imgs/question.svg" title="View info and credits"><span id="header_info">Info & Credits</span>|
+					<img class="main_bottom_icons" src="imgs/settings.svg" title="View tutorial"><span id="header_tutorial">Tutorial</span>
+				</span>
 			</div>
 		</div>
 		<div class="content slide" id="result">
@@ -118,8 +121,10 @@
 		<div class="content slide" id="credits">
 			<h1>&lt;WeME&gt; | A Web Metadata Editor</h1>
 			<h4>Info and Credits</h4>
-			<p>A web application created and designed by Francesco Sacchini.</p>
-			<p>The project uses the following libraries:</p>
+			<p>A web application created and designed by <b>Francesco Sacchini</b>. | Email: <a href="mailto:francesco.sacchini.y@gmail.com">francesco.sacchini.y@gmail.com</a> | Website: <a href="http://francescosacchini.com">francescosacchini.com</a></p><br/>
+			<p>The project was realised during a traineeship and thesis work, in collaboration with the <b>Institute of Informatics and Telematics (IIT)</b> of the CNR in Pisa.</p>
+			<p>Special thanks to ing. <b>Angelica Lo Duca</b> for the collaboration and help in the application development. | Website: <a href="http://www.iit.cnr.it/angelica.loduca">www.iit.cnr.it/angelica.loduca</a></p><br/>
+			<p>The project uses the following <i>libraries</i>:</p>
 			<ul>
 				<li><a href="https://jquery.com/">jQuery</a></li>
 				<li><a href="http://alvarotrigo.com/fullPage/">FullPage.js</a></li>
@@ -132,7 +137,7 @@
 				<li><a href=""></a></li>
 			</ul>
 			<span class="divider"></span>
-			<a class="github-button" href="https://github.com/alod83/metadata_editor/subscription" data-style="mega" data-count-href="/alod83/metadata_editor/watchers" data-count-api="/repos/alod83/metadata_editor#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch alod83/metadata_editor on GitHub">Watch on GitHub</a>
+			<a class="github-button" href="https://github.com/alod83/metadata_editor" data-style="mega" data-count-href="/alod83/metadata_editor/watchers" data-show-count="/repos/alod83/metadata_editor#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch alod83/metadata_editor on GitHub">Watch on GitHub</a>
 
 		</div>
 	</section>

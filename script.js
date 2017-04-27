@@ -43,7 +43,6 @@ $(window).ready(function () {
 	if ($('body').attr('email')!=undefined) {
 		collection_select();
 	}
-
 });
 
 function open_login_console() {
@@ -358,7 +357,7 @@ function collection_manager() {
 	$('#result .internal_slider').html("");
 	var email=$('body').attr('email');
 	$('#result .internal_slider').append("<h1 id='coll_title'>Your Collections</h1>"+
-	"<h4 id='coll_subtitle'>Here you can visualize, edit, export and delete your collections.</h4>");
+	"<h4>Here you can visualize, edit, export and delete your collections.</h4>");
 	$.ajax({
 		type: "GET",
 		url: "api/collections.php",
@@ -376,14 +375,13 @@ function collection_manager() {
 					'</tr>';
 				});
 				res+='<tr id="new_collection">'+
-				'<td>Create a new collection</td>'+
+				'<td class="collection_name">Create a new collection</td>'+
 				'<td class="collection_button" colspan=4><img src="imgs/plus.svg" /></td>'+
 				'</tr>';
 				res+="</table>";
 				$('#result .internal_slider').append(res);
 				$(".collection_view").click(function(){view_collection($(this).attr('collid'), $(this).attr('name'))});
 				$(".collection_edit").click(function(){edit_collection($(this).attr('collid'), $(this).attr('name'))});
-				//$(".collection_export").click(function(){export_collection($(this).attr('collid'), $(this).attr('name'))});
 				$(".collection_delete").click(function(){delete_collection($(this).attr('collid'), $(this).attr('name'))});
 				$("#new_collection").click(function(){new_collection()});
 				$(".collection_export").click(function(){
@@ -431,15 +429,16 @@ function view_collection(id, name) {
 
 			if (persons==null && places==null && cho==null) {
 				$('#result .internal_slider').html("");
-				$('#result .internal_slider').append("<h1 id='result_title'>Sorry, '"+name+"' is empty.</h1>");
+				$('#result .internal_slider').append("<h1 id='coll_title'>Sorry, '"+name+"' is empty.</h1>");
 			}
 			else {
 				$('#result .internal_slider').html("");
-				$('#result .internal_slider').append("<h1 id='result_title'>"+DBlength+" records in '"+name+"':</h1>");
+				$('#result .internal_slider').append("<h1 id='coll_title'>"+DBlength+" records in '"+name+"':</h1>"+
+					"<h4 id='DB_subtitle'><img src='imgs/file.svg' /> Export: <span class='coll_export_csv'>CSV</span> or <span class='coll_export_json'>JSON-LD</span></h4>");
 			}
 
 			if (persons!=null) {
-				$('#result .internal_slider').append("<h2 class='result_subtitle' type='person'>"+persons.length+" Persons<img class='DB_arrow' type='person' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type' type='person'>"+persons.length+" Persons<img class='DB_arrow' type='person' src='imgs/arrow.svg' /></span>");
 				var person_res="<table class='DB_records_container' type='person'>";
 				person_res+='<thead><tr><td>Name</td><td>Birth Date</td><td>Birth Place</td><td>Death Date</td><td>Death Place</td><td class="centered">View</td></tr></thead>';
 				$.each(persons, function(index,value) {
@@ -502,7 +501,7 @@ function view_collection(id, name) {
 			}
 
 			if (places!=null) {
-				$('#result .internal_slider').append("<h2 type='places' class='result_subtitle'>"+places.length+" Places<img class='DB_arrow' type='places' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type' type='places'>"+places.length+" Places<img class='DB_arrow' type='places' src='imgs/arrow.svg' /></span>");
 				var places_res="<table class='DB_records_container' type='places'>";
 				places_res+='<thead><tr><td>Name</td><td>Region</td><td>Country</td><td>Population</td><td>Lat,Long</td><td class="centered">View</td></tr></thead>';
 				$.each(places, function(index,value) {
@@ -552,7 +551,7 @@ function view_collection(id, name) {
 			}
 
 			if (cho!=null) {
-				$('#result .internal_slider').append("<h2 type='cho' class='result_subtitle'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow' type='cho' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type' type='cho'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow' type='cho' src='imgs/arrow.svg' /></span>");
 				var cho_res="<table class='DB_records_container' type='cho'>";
 				cho_res+='<thead><tr><td>Title</td><td>Author</td><td>Place</td><td>Date</td><td>Type</td><td class="centered">View</td></tr></thead>';
 				$.each(cho, function(index,value) {
@@ -597,11 +596,11 @@ function view_collection(id, name) {
 			}
 
 			$('.DB_records_container').hide();
-			$('.result_subtitle').click(function(){
+			$('.DB_type').click(function(){
 				var type=$(this).attr('type');
 				$('.DB_records_container[type="'+type+'"]').toggle();
 				$('.DB_arrow[type="'+type+'"]').toggleClass("rotate");
-				$(this).toggleClass("result_subtitle_fw");
+				$(this).toggleClass("DB_type_fw");
 			})
 			$.fn.fullpage.moveTo(1, 1);
 			$('.view_record').click(function(){
@@ -609,6 +608,13 @@ function view_collection(id, name) {
 				var key_id=$(this).attr("key_id");
 				searchRecord(type, key_id);
 			})
+
+			$(".coll_export_csv").click(function(){
+				export_collection(id, name);
+			});
+			$(".coll_export_json").click(function(){
+				export_JSON_coll(name,id);
+			});
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
@@ -642,15 +648,16 @@ function edit_collection(id, name) {
 
 			if (persons==null && places==null && cho==null) {
 				$('#result .internal_slider').html("");
-				$('#result .internal_slider').append("<h1 id='result_title'>'"+name+"' is empty.</h1>");
+				$('#result .internal_slider').append("<h1 id='coll_title'>'"+name+"' is empty.</h1>");
 			}
 			else {
 				$('#result .internal_slider').html("");
-				$('#result .internal_slider').append("<h1 id='result_title'>Edit '"+name+"':</h1>");
+				$('#result .internal_slider').append("<h1 id='coll_title'>Edit '"+name+"':</h1>"+
+					"<h4>Here you can add/remove records to/from your collection.</h4>");
 			}
 
 			if (persons!=null) {
-				$('#result .internal_slider').append("<h2 class='result_subtitle result_subtitle_fw' type='person'>"+persons.length+" Persons<img class='DB_arrow rotate' type='person' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type DB_type_fw' type='person'>"+persons.length+" Persons<img class='DB_arrow rotate' type='person' src='imgs/arrow.svg' /></span>");
 				var person_res="<table class='DB_records_container' type='person'>";
 				person_res+='<thead><tr><td>Name</td><td>Birth Date</td><td>Birth Place</td><td>Death Date</td><td>Death Place</td><td class="centered">Remove</td></tr></thead>';
 				$.each(persons, function(index,value) {
@@ -713,7 +720,7 @@ function edit_collection(id, name) {
 			}
 
 			if (places!=null) {
-				$('#result .internal_slider').append("<h2 type='places' class='result_subtitle result_subtitle_fw'>"+places.length+" Places<img class='DB_arrow rotate' type='places' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type DB_type_fw' type='places'>"+places.length+" Places<img class='DB_arrow rotate' type='places' src='imgs/arrow.svg' /></span>");
 				var places_res="<table class='DB_records_container' type='places'>";
 				places_res+='<thead><tr><td>Name</td><td>Region</td><td>Country</td><td>Population</td><td>Lat,Long</td><td class="centered">Remove</td></tr></thead>';
 				$.each(places, function(index,value) {
@@ -763,7 +770,7 @@ function edit_collection(id, name) {
 			}
 
 			if (cho!=null) {
-				$('#result .internal_slider').append("<h2 type='cho' class='result_subtitle result_subtitle_fw'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow rotate' type='cho' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type DB_type_fw' type='cho'>"+cho.length+" Cultural Heritage Object<img class='DB_arrow rotate' type='cho' src='imgs/arrow.svg' /></span>");
 				var cho_res="<table class='DB_records_container' type='cho'>";
 				cho_res+='<thead><tr><td>Title</td><td>Author</td><td>Place</td><td>Date</td><td>Type</td><td class="centered">Remove</td></tr></thead>';
 				$.each(cho, function(index,value) {
@@ -807,12 +814,11 @@ function edit_collection(id, name) {
 				$('#result .internal_slider').append(cho_res);
 			}
 
-
-			$('.result_subtitle').click(function(){
+			$('.DB_type').click(function(){
 				var type=$(this).attr('type');
 				$('.DB_records_container[type="'+type+'"]').toggle();
 				$('.DB_arrow[type="'+type+'"]').toggleClass("rotate");
-				$(this).toggleClass("result_subtitle_fw");
+				$(this).toggleClass("DB_type_fw");
 			})
 			$.fn.fullpage.moveTo(1, 1);
 			$('.remove_record').click(function(){
@@ -858,15 +864,15 @@ function edit_collection(id, name) {
 			}
 
 			if (persons==null && places==null && cho==null) {
-				$('#result .internal_slider').append("<h1 id='result_title'>No more records in the Database.</h1>");
+				$('#result .internal_slider').append("<h1 id='coll_subtitle'>No more records in the Database.</h1>");
 			}
 			else {
 				$('#result .internal_slider').append("<div class='big_divider'></div>");
-				$('#result .internal_slider').append("<h1 id='result_title'>Add elements to the Collection:</h1>");
+				$('#result .internal_slider').append("<h1 id='coll_subtitle'>Add elements to the Collection</h1>");
 			}
 
 			if (persons!=null) {
-				$('#result .internal_slider').append("<h2 class='result_subtitleDB' type='personDB'>Persons<img class='DB_arrow rotate' type='personDB' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type_fade' type='personDB'>Persons<img class='DB_arrow' type='personDB' src='imgs/arrow.svg' /></span>");
 				var person_res="<table class='DB_records_container hide' type='personDB'>";
 				person_res+='<thead><tr><td>Name</td><td>Birth Date</td><td>Birth Place</td><td>Death Date</td><td>Death Place</td><td class="centered">Add</td></tr></thead>';
 				$.each(persons, function(index,value) {
@@ -929,7 +935,7 @@ function edit_collection(id, name) {
 			}
 
 			if (places!=null) {
-				$('#result .internal_slider').append("<h2 type='placesDB' class='result_subtitleDB'>Places<img class='DB_arrow rotate' type='placesDB' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type_fade' type='placesDB'>Places<img class='DB_arrow' type='placesDB' src='imgs/arrow.svg' /></span>");
 				var places_res="<table class='DB_records_container hide' type='placesDB'>";
 				places_res+='<thead><tr><td>Name</td><td>Region</td><td>Country</td><td>Population</td><td>Lat,Long</td><td class="centered">Add</td></tr></thead>';
 				$.each(places, function(index,value) {
@@ -979,7 +985,7 @@ function edit_collection(id, name) {
 			}
 
 			if (cho!=null) {
-				$('#result .internal_slider').append("<h2 type='choDB' class='result_subtitleDB'>Cultural Heritage Object<img class='DB_arrow rotate' type='choDB' src='imgs/arrow.svg' /></h2>");
+				$('#result .internal_slider').append("<span class='DB_type_fade' type='choDB'>Cultural Heritage Object<img class='DB_arrow' type='choDB' src='imgs/arrow.svg' /></span>");
 				var cho_res="<table class='DB_records_container hide' type='choDB'>";
 				cho_res+='<thead><tr><td>Title</td><td>Author</td><td>Place</td><td>Date</td><td>Type</td><td class="centered">Add</td></tr></thead>';
 				$.each(cho, function(index,value) {
@@ -1024,11 +1030,11 @@ function edit_collection(id, name) {
 			}
 
 			$('.DB_records_container.hide').hide();
-			$('.result_subtitleDB').click(function(){
+			$('.DB_type_fade').click(function(){
 				var type=$(this).attr('type');
 				$('.DB_records_container[type="'+type+'"]').toggle();
 				$('.DB_arrow[type="'+type+'"]').toggleClass("rotate");
-				$(this).toggleClass("result_subtitle_fw");
+				$(this).toggleClass("DB_type_fw");
 			})
 			$.fn.fullpage.moveTo(1, 1);
 			$('.add_record').click(function(){
@@ -1044,7 +1050,7 @@ function edit_collection(id, name) {
 
 function new_collection() {
 	$("#new_collection").off();
-	$('#new_collection').css('background-color', '#8fb4c1');
+	$('#new_collection').css('background-color', '#fff5c6');
 	var string='<tr id="new_collection_row"><td id="new_collection_name"><input type="text" placeholder="New collection name"></input></td>'+
 	'<td></td>'+
 	'<td></td>'+
@@ -1052,14 +1058,18 @@ function new_collection() {
 	'<td class="collection_button" id="new_collection_cancel"><img src="imgs/cancel.svg" /></td></tr>';
 	$("#collections_container").append(string);
 	$("#new_collection_cancel").click(function(){collection_manager()});
-	$("#new_collection_create").click(function(){modify_collection('add_collection')});
+	$("#new_collection_create").click(function(){
+		if ($("#new_collection_name input").val()!=""){
+			modify_collection('add_collection');
+		}
+	});
 };
 
 function delete_collection(id) {
 	$(".collection_delete").off();
 	var elem=$('.collection[collid="'+id+'"]');
 	var name=$('.collection[collid="'+id+'"] .collection_name').html();
-	var string='<td>Delete <i>'+name+'</i>?</td>'+
+	var string='<td class="collection_name">Delete <i>'+name+'</i>?</td>'+
 	'<td></td>'+
 	'<td></td>'+
 	'<td class="collection_button" id="delete_collection_confirm"><img src="imgs/check.svg" /></td>'+
@@ -1147,7 +1157,7 @@ function export_collection(coll_id, name) {
 	$.ajax({
 		type: "GET",
 		url: "api/collections.php",
-		data: {id:coll_id, request: "coll_to_CSV"}, //effettuo una chiamata ajax
+		data: {id:coll_id, request: "view_collection2"}, //effettuo una chiamata ajax
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success: function (result) {
 			console.log(result)
@@ -1416,7 +1426,7 @@ function create_element(request, value) {
 		'<span><b>Region:</b> '+region+'</span><br/>'+
 		'<span><b>Population:</b> '+population+'</span><br/>'+
 		'<span class="result_divider"></span>'+
-		'<span class="result_sub">Bio</span>'+
+		'<span class="result_sub">Description</span>'+
 		'<span class="result_bio">'+bio+'</span>'+
 		'<span class="result_divider"></span>'+
 		'<span class="result_sub">Links</span>'+
@@ -1490,7 +1500,7 @@ function create_element(request, value) {
 		'<span><b>Date of issue:</b> '+idate+'</span><br/>'+
 		'<span><b>Type:</b> '+type+'</span>'+
 		'<span class="result_divider"></span>'+
-		'<span class="result_sub">Bio</span>'+
+		'<span class="result_sub">Description</span>'+
 		'<span class="result_bio">'+bio+'</span>'+
 		'<span class="result_divider"></span>'+
 		'<span class="result_sub">Links</span>'+
@@ -1639,8 +1649,6 @@ function create_element(request, value) {
 function create_assoc_element(request, value) {
 	$('#result_association').remove();
 	$('.internal_slider').append('<span id="result_association"></span>');
-	var string='<h1 class="result_main_title">Associated Record:</h1>';
-	$('#result_association').html(string);
 
 	var key_id=value.key_id;
 	var res="";
@@ -1788,7 +1796,7 @@ function create_assoc_element(request, value) {
 		'<span><b>Region:</b> '+region+'</span><br/>'+
 		'<span><b>Population:</b> '+population+'</span><br/>'+
 		'<span class="result_divider"></span>'+
-		'<span class="result_sub">Bio</span>'+
+		'<span class="result_sub">Description</span>'+
 		'<span class="result_bio">'+bio+'</span>'+
 		'<span class="result_divider"></span>'+
 		'<span class="result_sub">Links</span>'+
@@ -1852,7 +1860,7 @@ function create_assoc_element(request, value) {
 		'<span><b>Date of issue:</b> '+idate+'</span><br/>'+
 		'<span><b>Type:</b> '+type+'</span>'+
 		'<span class="result_divider"></span>'+
-		'<span class="result_sub">Bio</span>'+
+		'<span class="result_sub">Description</span>'+
 		'<span class="result_bio">'+bio+'</span>'+
 		'<span class="result_divider"></span>'+
 		'<span class="result_sub">Links</span>'+
@@ -2244,14 +2252,15 @@ function searchDB(type, keywords) {
 				if (result==null) { //se result è nullo significa che non ci sono risultati
 					//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
 					$('#result .internal_slider').html("");
-					$('#result .internal_slider').append("<h1 class='result_main_title'>Sorry, no results for '"+keywords+"'.</h1>");
+					$('#result .internal_slider').append("<h1>Sorry, no results for '"+keywords+"'.</h1>");
 					$.fn.fullpage.moveTo(1, 1);
 				}
 				else {
 					//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
 					$('#result .internal_slider').html("");
 					//inserisco il titolo e la lunghezza dei risultati
-					$('#result .internal_slider').append("<h1 class='result_main_title'> Results for '"+keywords+"':</h1>");
+					$('#result .internal_slider').append("<h1 id='result_main_title'>Results for '"+keywords+"'</h1>"+
+					"<h4 id='result_main_subtitle'>Here you can visualize, modify, delete the record you selected and visualize the associated ones.</h4>");
 
 					$.each(result, function(index,value) {
 						create_element(type,value);
@@ -2270,6 +2279,43 @@ function searchDB(type, keywords) {
 			}
 		});
 	}
+};
+
+function searchRecord(type, key_id) {
+	if (type==undefined) {
+		var substring=key_id.substring(0,3);
+		if (substring=="per") {
+			type="person";
+		}
+		else if (substring=="pla") {
+			type="place";
+		}
+		else if (substring=="cho") {
+			type="cho";
+		}
+		console.log(type);
+	}
+	$.ajax({
+		type: "GET",
+		url: "api/ajax.php",
+			data: {key_id: key_id, request: "searchRecord"}, //effettuo una chiamata ajax
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			success: function (result) {
+				var res=""; //variabile che contiene i risultati
+				//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
+				$('#result .internal_slider').html("");
+				//inserisco il titolo e la lunghezza dei risultati
+				$('#result .internal_slider').append("<h1 id='result_main_title'>Selected Record</h1>"+
+				"<h4 id='result_main_subtitle'>Here you can visualize, modify, delete the record you selected and visualize the associated ones.</h4>");
+
+				$.each(result, function(index,value) {
+					create_element(type,value);
+				})
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log(textStatus, errorThrown);
+			}
+	});
 };
 
 function displayDB() {
@@ -2298,7 +2344,7 @@ function displayDB() {
 
 			if (persons==null && places==null && cho==null) {
 				$('#result .internal_slider').html("");
-				$('#result .internal_slider').append("<h1 id='result_title'>Sorry, the Database is empty.</h1>");
+				$('#result .internal_slider').append("<h1 id='DB_title'>Sorry, the Database is empty.</h1>");
 			}
 			else {
 				$('#result .internal_slider').html("");
@@ -2888,42 +2934,6 @@ function get_links_coll(collid) {
 	});
 }
 
-function searchRecord(type, key_id) {
-	if (type==undefined) {
-		var substring=key_id.substring(0,3);
-		if (substring=="per") {
-			type="person";
-		}
-		else if (substring=="pla") {
-			type="place";
-		}
-		else if (substring=="cho") {
-			type="cho";
-		}
-		console.log(type);
-	}
-	$.ajax({
-		type: "GET",
-		url: "api/ajax.php",
-			data: {key_id: key_id, request: "searchRecord"}, //effettuo una chiamata ajax
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			success: function (result) {
-				var res=""; //variabile che contiene i risultati
-				//svuoto la finestra dei risultati in caso ce ne fossero di precedenti
-				$('#result .internal_slider').html("");
-				//inserisco il titolo e la lunghezza dei risultati
-				$('#result .internal_slider').append("<h1 class='result_main_title'>Selected Record:</h1>");
-
-				$.each(result, function(index,value) {
-					create_element(type,value);
-				})
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				console.log(textStatus, errorThrown);
-			}
-	});
-};
-
 //funzione per la creazione dinamica dei menu di input
 function adding_menu(id) {
 	$.fn.fullpage.moveTo(2);
@@ -3049,11 +3059,8 @@ function adding_menu(id) {
 		});
 };
 
-function popup(type, content) {
-	var color={"positive":"#249A41", "negative":"#F03530", "no-res":"#FFBB00", "loading":"#196EEF"};
-	var border=color[type];
+function popup(content) {
 	$('#popup').html(content);
-	$('#popup').css("border", "2px solid "+border);
 	$('#data_input').css("opacity",0.3);
 	$('#popup_container').show();
 
@@ -3089,8 +3096,8 @@ function check_wiki(request) {
 			$('#input_surname').css("border-color","red");
 		}
 		else {
-			var content="<img src='imgs/loading.svg' id='loading' />";
-			popup("loading", content);
+			var content="<img src='imgs/settings.svg' id='loading' />";
+			popup(content);
 
 			$('#input_name').css("border-color","grey");
 			$('#input_surname').css("border-color","grey");
@@ -3107,12 +3114,12 @@ function check_wiki(request) {
 						if (result.check=="CONNERROR") {
 							var content="<span>Sorry, there was an ERROR during the connection!</span>";
 							content+="<div class='popup_button' id='popup_close'>Close</div>";
-							popup("negative", content);
+							popup(content);
 						}
 						else {
 							var content="<span>Sorry, no results found!</span>";
 							content+="<div class='popup_button' id='popup_close'>Close</div>";
-							popup("no-res", content);
+							popup(content);
 						}
 					}
 					else {
@@ -3162,11 +3169,8 @@ function check_wiki(request) {
 			$('#input_oname').css("border-color","red");
 		}
 		else {
-			var string="<img src='imgs/loading.svg' id='loading' />";
-			$('#popup').html(string);
-			$('#popup').css("border", "2px solid #196EEF");
-			$('#popup_container').show();
-			$('#data_input').css("opacity",0.3);
+			var content="<img src='imgs/settings.svg' id='loading' />";
+			popup(content);
 
 			$('#input_oname').css("border-color","grey");
 			$.ajax({
@@ -3181,12 +3185,12 @@ function check_wiki(request) {
 						if (result.check=="CONNERROR") {
 							var content="<span>Sorry, there was an ERROR during the connection!</span>";
 							content+="<div class='popup_button' id='popup_close'>Close</div>";
-							popup("negative", content);
+							popup(content);
 						}
 						else {
 							var content="<span>Sorry, no results found!</span>";
 							content+="<div class='popup_button' id='popup_close'>Close</div>";
-							popup("no-res", content);
+							popup(content);
 						}
 					}
 					else {
@@ -3207,10 +3211,6 @@ function check_wiki(request) {
 
 		}
 	}
-
-	else if (request=="event") {
-
-	}
 };
 
 function check_viaf() {
@@ -3221,8 +3221,8 @@ function check_viaf() {
 		$('#input_surname').css("border-color","red");
 	}
 	else {
-		var content="<img src='imgs/loading.svg' id='loading' />";
-		popup("loading", content);
+		var content="<img src='imgs/settings.svg' id='loading' />";
+		popup(content);
 		$('#input_name').css("border-color","grey");
 		$('#input_surname').css("border-color","grey");
 		$.ajax({
@@ -3236,7 +3236,7 @@ function check_viaf() {
 				if (result==null) {
 					var content="<span>Sorry, no results found!</span>";
 					content+="<div class='popup_button' id='popup_close'>Close</div>";
-					popup("no-res", content);
+					popup(content);
 				}
 				else {
 					var index=0;
@@ -3244,8 +3244,8 @@ function check_viaf() {
 					function askagain(index){
 						var test=result[index].term;
 						var content="<span>Is this what you're looking for?</span><br/>"+
-						'<span><i>'+test+"</i></span><br/><div class='popup_button' id='popup_yes'>Yes</div><div class='popup_button' id='popup_no'>No</div>";
-						popup("no-res", content);
+						'<span id="popup_viaf">'+test+"</span><br/><div class='popup_button' id='popup_yes'>Yes</div><div class='popup_button' id='popup_no'>No</div>";
+						popup(content);
 						$("#popup_no").one( "click", function() {
 							if (index!=length-1) {
 								askagain(index+1);
@@ -3279,11 +3279,8 @@ function check_geonames(){
 		$('#input_oname').css("border-color","red");
 	}
 	else {
-		var string="<img src='imgs/loading.svg' id='loading' />";
-		$('#popup').html(string);
-		$('#popup').css("border", "2px solid #196EEF");
-		$('#popup_container').show();
-		$('#data_input').css("opacity",0.3);
+		var content="<img src='imgs/settings.svg' id='loading' />";
+		popup(content);
 
 		$('#input_oname').css("border-color","grey");
 		$.ajax({
@@ -3298,12 +3295,12 @@ function check_geonames(){
 					if (result.check=="CONNERROR") {
 						var content="<span>Sorry, there was an ERROR during the connection!</span>";
 						content+="<div class='popup_button' id='popup_close'>Close</div>";
-						popup("negative", content);
+						popup(content);
 					}
 					else {
 						var content="<span>Sorry, no results found!</span>";
 						content+="<div class='popup_button' id='popup_close'>Close</div>";
-						popup("no-res", content);
+						popup(content);
 					}
 				}
 				else {
@@ -3321,82 +3318,6 @@ function check_geonames(){
 
 	}
 }
-
-function check_google(){
-	var name=$('#input_oname').val();
-	if(name=="") {
-		$('#input_oname').css("border-color","red");
-	}
-	else {
-		var string="<img src='imgs/loading.svg' id='loading' />";
-		$('#popup').html(string);
-		$('#popup').css("border", "2px solid #196EEF");
-		$('#popup_container').show();
-		$('#data_input').css("opacity",0.3);
-
-		$('#input_oname').css("border-color","grey");
-		$.ajax({
-			type: "GET",
-			url: "api/ajax.php",
-			data: {luogo: name, request: "google_place"},
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			success: function (result) {
-				$('#popup_container').hide();
-				console.log(result);
-				if (result==undefined) {
-					if (result.check=="CONNERROR") {
-						var content="<span>Sorry, there was an ERROR during the connection!</span>";
-						content+="<div class='popup_button' id='popup_close'>Close</div>";
-						popup("negative", content);
-					}
-					else {
-						var content="<span>Sorry, no results found!</span>";
-						content+="<div class='popup_button' id='popup_close'>Close</div>";
-						popup("no-res", content);
-					}
-				}
-				else {
-					var ename;
-					var region;
-					var country;
-					var addresses=result.address_components;
-					$.each(addresses, function(index,value) {
-						if (addresses[index].types[0]=="locality") {
-							ename=addresses[index].long_name;
-						}
-						else if (addresses[index].types[0]=="administrative_area_level_1") {
-							region=addresses[index].long_name;
-						}
-						else if (addresses[index].types[0]=="country") {
-							country=addresses[index].long_name;
-						}
-					})
-					var lat=result.geometry.location.lat;
-					var long=result.geometry.location.lng;
-
-					$('#data_input').css("opacity",1);
-
-					if ($("#input_ename").val()=="") {
-						$("#input_ename").val(ename);
-					}
-					if ($("#input_country").val()=="") {
-						$("#input_country").val(country);
-					}
-					if ($("#input_region").val()=="") {
-						$("#input_region").val(region);
-					}
-					if ($("#input_latitude").val()=="") {
-						$("#input_latitude").val(lat);
-					}
-					if ($("#input_longitude").val()=="") {
-						$("#input_longitude").val(long);
-					}
-
-				}
-			}
-		});
-	}
-};
 
 var dateCheck=true;
 function add_data(request) {
@@ -3489,7 +3410,7 @@ function add_data(request) {
 				if (result=="OK") {
 					resetInput();
 					var content="<span>Insert Succesful!</span><div class='popup_button' id='popup_view'>View Record</div><div class='popup_button' id='popup_close'>Close</div>";
-					popup("positive", content);
+					popup(content);
 					$("#popup_view").one( "click", function() {
 						searchDB(type, keywords);
 						$('#popup_container').hide();
@@ -3498,7 +3419,7 @@ function add_data(request) {
 				}
 				else if (result=="duplicate") {
 					var content="<span>This record is already in the Database!</span><div class='popup_button' id='popup_view'>View Record</div><div class='popup_button' id='popup_close'>Close</div>";
-					popup("negative", content);
+					popup(content);
 					$("#popup_view").one( "click", function() {
 						searchDB(type, keywords);
 						$('#popup_container').hide();
@@ -3517,12 +3438,12 @@ function add_data(request) {
 			content+="<span>Invalid date format!</span>"
 		}
 		content+="<div class='popup_button' id='popup_close'>Close</div>";
-		popup("negative", content);
+		popup(content);
 	}
 	else if (check==true && dateCheck==false) {
 		var content="<span>Invalid date format!<br/>Required: yyyy-mm-dd or yyyy.</span>";
 		content+="<div class='popup_button' id='popup_close'>Close</div>";
-		popup("negative", content);
+		popup(content);
 	}
 };
 
@@ -3655,6 +3576,7 @@ function modify_menu(request, key_id) {
 							$('#input_longitude').val(result[0].longitude);
 							$('#input_bio').val(result[0].description);
 							$('#input_wiki').val(result[0].linkwikipedia);
+							$('#input_geonames').val(result[0].linkgeonames);
 							$('#input_picture').val(result[0].picture);
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
@@ -3827,7 +3749,7 @@ function modify_data(request, key_id, action) {
 					if (result=="OK") {
 
 						var content="<span>Update Succesful!</span><div class='popup_button' id='popup_view'>View Record</div><div class='popup_button' id='popup_close'>Close</div>";
-						popup("positive", content);
+						popup(content);
 						$("#popup_view").one( "click", function() {
 							searchDB(request, keywords);
 							$('#popup_container').hide();
@@ -3849,12 +3771,12 @@ function modify_data(request, key_id, action) {
 				content+="<span>Invalid date format!</span>"
 			}
 			content+="<div class='popup_button' id='popup_close'>Close</div>";
-			popup("negative", content);
+			popup(content);
 		}
 		else if (check==true && dateCheck==false) {
 			var content="<span>Invalid date format!<br/>Required: yyyy-mm-dd or yyyy.</span>";
 			content+="<div class='popup_button' id='popup_close'>Close</div>";
-			popup("negative", content);
+			popup(content);
 		}
 	}
 	else if (action=="cancel") {
@@ -3885,7 +3807,7 @@ function import_csv(){
 
 	var content3='<div class="row">'+
 		 '<div class="col-md-6 col-md-offset-0">'+
-			  '<form enctype="multipart/form-data" method="post" action="import_csv4.php">'+
+			  '<form enctype="multipart/form-data" method="post" action="import:csv2.php">'+
 					'<div class="form-group">'+
 						 '<label for="file">Select .CSV file to Import</label>'+
 						 '<input name="file" type="file" class="form-control">'+
