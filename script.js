@@ -3805,42 +3805,24 @@ function import_csv(){
 		adding_menu_console();
 	}
 
-	var content3='<div class="row">'+
-		 '<div class="col-md-6 col-md-offset-0">'+
-			  '<form enctype="multipart/form-data" method="post" action="import:csv2.php">'+
-					'<div class="form-group">'+
-						 '<label for="file">Select .CSV file to Import</label>'+
-						 '<input name="file" type="file" class="form-control">'+
-					'</div>'+
-					'<div class="form-group">'+
-						 '<?php echo $message; ?>'+
-					'</div>'+
-					'<div class="form-group">'+
-						 '<input type="submit" name="submit" class="btn btn-primary" value="Submit"/>'+
-					'</div>'+
-			  '</form>'+
-			  '<div class="form-group">'+
-					'<?php echo $users; ?>'+
-			  '</div>'+
-		 '</div>'+
-	'</div>';
-
-	var content2='<form enctype="multipart/form-data" method="post" action="import_csv2.php"><table border="1"><tr>'+
-	'<td colspan="2" align="center"><strong>Import CSV file</strong></td></tr>'+
-	'<tr><td align="center">CSV File:</td><td><input type="file" name="file" id="file"></td></tr>'+
-	'<tr><td colspan="2" align="center"><input type="submit" value="submit"></td></tr>'+
-	'</table></form>';
-
-	var content='<div id="section2_container"><h1>Import CSV files into the Database</h1>'+
-	'<h4><b>Instructions</b>: be sure your file contains the correct number of fields. The first line of your file must include the table fields, you can copy the first line from the string below:</h4>'+
+	var content='<div id="section2_container"><h1><img src="imgs/import.svg" id="import_img"/>Import CSV files into the Database</h1>'+
+	'<h4>Here you can import a .csv file into the Database. Be sure the structure of your file is correct.</h4>'+
+	'<p><b>Instructions</b>:</p>'+
+	'<ul id="import_instructions"><li>be sure your file contains the correct number of fields;</li>'+
+	'<li>the field delimiter must be a comma (,) and the row delimiter must be a end-of-line (\\n);</li>'+
+	'<li>the field must be enclosed in double quotes ("); all the double quotes (") within the fields must be escaped correctly;</li>'+
+	'<li>the first line of your file must include the table fields, you can copy the first line from the string below:</li></ul>'+
 	'<select id="import_select"><option>Persons</option><option>Places</option><option>CHO</option></select>'+
-	'<input id="import_example"></input>'+
+	'<input id="import_example" readonly="readonly"></input>'+
 	'<span class="divider"></span>'+
 	'<div id="dvImportSegments" class="fileupload ">'+
-	'<fieldset><legend>Upload your CSV File</legend><input type="file" name="File Upload" id="CSVfile" accept=".csv" /></fieldset>'+
+	'<fieldset id="import_fieldset"><legend>Upload your CSV File</legend><input type="file" name="File Upload" id="CSVfile" accept=".csv" /></fieldset>'+
 	'</div></div>';
 
-	$('#section2 .content').html(content3);
+	$('#section2 .content').html(content);
+
+	import_fields();
+	$('#import_select').change(function(){import_fields()});
 
 	$('#CSVfile').change(function(){upload_CSV()});
 }
@@ -3849,19 +3831,38 @@ function import_csv(){
 function upload_CSV() {
 	var csvFile = $('#CSVfile')[0].files[0];
 	data = new FormData();
-   data.append('file', csvFile);
+	data.append('file', csvFile);
 	console.log(data.get("file"));
 	$.ajax({
-    url: 'import_csv.php',
-    type: 'POST',
-    processData: false,
-    contentType: false,
-    data: data,
-    success: function (result, status, jqxhr) {
-        console.log(result);
-    },
-    error: function (jqxhr, status, msg) {
-        //error code
-    }
-});
+		url: 'import_csv4.php',
+		type: 'POST',
+		processData: false,
+		contentType: false,
+		data: data,
+		success: function (result, status, jqxhr) {
+			$('#import_fieldset').remove();
+			$('#section2_container').append('<p><b>Is your file correct? Do you want to import it?</b></p><img id="import_confirm" src="imgs/check.svg" /><img id="import_cancel" src="imgs/cancel.svg" />')
+			$('#section2_container').append(result);
+
+			$('#import_cancel').click(function(){import_csv()});
+		},
+		error: function (jqxhr, status, msg) {
+			//error code
+		}
+	});
+
+}
+
+function import_fields(){
+	var type=$('#import_select').val();
+	var input=$('#import_example');
+	if (type=="Persons"){
+		input.val("key_id,person_id,name,surname,name_surname,was_born,was_born_year,died,died_year,still_alive,born_in,died_in,linkwikiperson,linkviafperson,bio,picture");
+	}
+	else if (type=="Places"){
+		input.val("key_id,location_id,original_name,english_name,country,region,population,latitude,longitude,linkwikipedia,linkgeonames,description,picture");
+	}
+	else if (type=="CHO"){
+		input.val("key_id,cho_id,original_title,english_title,author,author_id,place,creation_date,issue_date,type,language,linkwiki,bio,picture");
+	}
 }

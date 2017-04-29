@@ -119,9 +119,16 @@
 			</div>
 		</div>
 		<div class="content slide" id="credits">
-			<h1>&lt;WeME&gt; | A Web Metadata Editor</h1>
-			<h4>Info and Credits</h4>
-			<p>A web application created and designed by <b>Francesco Sacchini</b>. | Email: <a href="mailto:francesco.sacchini.y@gmail.com">francesco.sacchini.y@gmail.com</a> | Website: <a href="http://francescosacchini.com">francescosacchini.com</a></p><br/>
+			<h1><img src="imgs/question.svg">Info and Credits</h1>
+			<h4>Here you can find informations and contacts about the creators of this application.</h4>
+			<div id="credits_me">
+				<img src="imgs/me.jpg" alt="">
+				<div id="credits_me_text">
+					<p>A web application created and designed by <b>Francesco Sacchini</b>.</p>
+					<p>Email: <a href="mailto:francesco.sacchini.y@gmail.com">francesco.sacchini.y@gmail.com</a></p>
+					<p>Website: <a href="http://francescosacchini.com">francescosacchini.com</a></p>
+				</div>
+			</div>
 			<p>The project was realised during a traineeship and thesis work, in collaboration with the <b>Institute of Informatics and Telematics (IIT)</b> of the CNR in Pisa.</p>
 			<p>Special thanks to ing. <b>Angelica Lo Duca</b> for the collaboration and help in the application development. | Website: <a href="http://www.iit.cnr.it/angelica.loduca">www.iit.cnr.it/angelica.loduca</a></p><br/>
 			<p>The project uses the following <i>libraries</i>:</p>

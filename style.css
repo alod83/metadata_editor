@@ -11,10 +11,19 @@ h1{
    margin-bottom: 10px;
 }
 
+h1 img{
+   width: .9em;
+   position: relative;
+   top:1px;
+   margin-right: 5px;
+}
+
 h4{
    color:grey;
    font-weight: normal;
    margin-top: 0;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 .divider{
@@ -1258,6 +1267,23 @@ input[type=radio]:checked + label {
    width: 800px;
 }
 
+#import_img{
+   position: relative;
+   top: 0.5px;
+   width: .8em;
+   margin-right: 5px;
+}
+
+#import_instructions{
+   text-align: center;
+   margin: 0 auto 20px;
+   max-width: 900px;
+}
+
+#import_instructions li{
+   text-align: left;
+}
+
 #import_example{
    width: 600px;
    line-height: 20px;
@@ -1270,6 +1296,41 @@ input[type=radio]:checked + label {
    margin-right: 10px;
 }
 
+fieldset{
+   max-width: 800px;
+   margin: 20px auto;
+   text-align: center;
+}
+
+#import_csv_table{
+   font-size: 0.6em;
+   border-collapse: collapse;
+   max-width: 90vw;
+   margin-top: 30px;
+}
+
+#import_csv_table tbody tr:first-child{
+   background-color: #ededed;
+}
+
+#import_csv_table td{
+   padding: 2px;
+   border: 1px solid #4d4d4d;
+}
+
+#import_csv_table .long_text{
+   width: 300px;
+   height: 50px;
+   resize: none;
+   outline: none;
+}
+
+#import_confirm, #import_cancel{
+   width: 18px;
+   margin: 0 7px;
+   cursor: pointer;
+}
+
 #credits ul{
    list-style-type: none;
    width: 100px;
@@ -1279,4 +1340,29 @@ input[type=radio]:checked + label {
 
 #credits a {
    color: black;
+}
+
+#credits_me{
+   display: block;
+   margin: auto;
+   text-align: center;
+   margin: 40px auto;
+}
+
+#credits_me img{
+   width: 150px;
+   border-radius: 100%;
+   display: inline-block;
+   vertical-align: middle;
+   margin-right: 10px;
+}
+
+#credits_me_text{
+   display: inline-block;
+   box-sizing: border-box;
+   vertical-align: middle;
+   text-align: left;
+   border-left: 1px solid #ededed;
+   padding-left: 10px;
+
 }
