@@ -1385,9 +1385,16 @@ fieldset{
 
 #credits ul{
    list-style-type: none;
-   width: 100px;
    margin: auto;
    padding: 0;
+}
+
+#credits ul li {
+    display: inline-block;
+    border: 1px solid #ededed;
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 0 5px;
 }
 
 #credits a {

@@ -3132,35 +3132,32 @@ function check_wiki(request) {
 						$("#input_picture").val(result[0].thumbedit.value);
 						$("#input_wiki").val(result[0].wiki.value);
 					}
+
+					setTimeout(function(){
+						if(isDate($('#input_birthdate').val())==true && $('#input_birthdate').val()!="") {
+							dateCheck=true;
+							$('#input_birthdate').css("border-color","green");
+						}
+						else {
+							dateCheck=false;
+							$('#input_birthdate').css("border-color","red");
+						}
+
+						if(isDate($('#input_deathdate').val())==true) {
+							dateCheck=true;
+							if ($('#input_birthdate').val()!="") {
+								$('#input_deathdate').css("border-color","green");
+							}
+						}
+						else {
+							dateCheck=false;
+							$('#input_deathdate').css("border-color","red");
+						}
+					},300);
 				}
 			});
-
-			setTimeout(function(){
-				if(isDate($('#input_birthdate').val())==true && $('#input_birthdate').val()!="") {
-					dateCheck=true;
-					$('#input_birthdate').css("border-color","green");
-				}
-				else {
-					dateCheck=false;
-					$('#input_birthdate').css("border-color","red");
-				}
-
-				if(isDate($('#input_deathdate').val())==true) {
-					dateCheck=true;
-					if ($('#input_birthdate').val()!="") {
-						$('#input_deathdate').css("border-color","green");
-					}
-				}
-				else {
-					dateCheck=false;
-					$('#input_deathdate').css("border-color","red");
-				}
-			},500);
-
 		}
-
 	}
-
 	else if (request=="place") {
 		var name=$('#input_oname').val();
 		console.log("Key: "+name);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>WeME - A Web Metadata Editor</title>
+	<title>WeME - The Web Metadata Editor</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 	<!--Fogli di stile-->
@@ -16,7 +16,7 @@
 	<script type="text/javascript" src="libraries/FileSaver.js"></script>
 	<script type="text/javascript" src="libraries/jquery_csv.js"></script>
 	<!--Icona-->
-	<link rel="icon" href="img/me.png" type="img/x-icon">
+	<link rel="icon" href="imgs/icon.png" type="img/x-icon">
 	<!--Font-->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,700,800|Roboto+Slab:400,700" rel="stylesheet">
 	<!-- Place this tag in your head or just before your close body tag. -->
@@ -45,7 +45,7 @@
 <div class="fullpage">
 	<section id="header">
 		<table id="header_container">
-		<tr><td id="header_title"><a href="#1/0">&lt;WeME&gt; | A Web Metadata Editor</a></td>
+		<tr><td id="header_title"><a href="#1/0">&lt;WeME&gt; | The Web Metadata Editor</a></td>
 		<?php //show social buttons or user name
 				if (!isset($_SESSION['name'])) {
 					echo ('<td id="header_login">Welcome! Can you tell us about you?</td>');
@@ -125,23 +125,18 @@
 				<img src="imgs/me.jpg" alt="">
 				<div id="credits_me_text">
 					<p>A web application created and designed by <b>Francesco Sacchini</b>.</p>
-					<p>Email: <a href="mailto:francesco.sacchini.y@gmail.com">francesco.sacchini.y@gmail.com</a></p>
-					<p>Website: <a href="http://francescosacchini.com">francescosacchini.com</a></p>
+					<p><b>Email</b>: <a href="mailto:francesco.sacchini.y@gmail.com">francesco.sacchini.y@gmail.com</a></p>
+					<p><b>Website</b>: <a href="http://francescosacchini.com">francescosacchini.com</a></p>
 				</div>
 			</div>
 			<p>The project was realised during a traineeship and thesis work, in collaboration with the <b>Institute of Informatics and Telematics (IIT)</b> of the CNR in Pisa.</p>
 			<p>Special thanks to ing. <b>Angelica Lo Duca</b> for the collaboration and help in the application development. | Website: <a href="http://www.iit.cnr.it/angelica.loduca">www.iit.cnr.it/angelica.loduca</a></p><br/>
-			<p>The project uses the following <i>libraries</i>:</p>
+			<p><b><u>Libraries used in this project</u></b></p>
 			<ul>
 				<li><a href="https://jquery.com/">jQuery</a></li>
 				<li><a href="http://alvarotrigo.com/fullPage/">FullPage.js</a></li>
 				<li><a href="https://stuk.github.io/jszip/">JSZip</a></li>
 				<li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
 			</ul>
 			<span class="divider"></span>
 			<a class="github-button" href="https://github.com/alod83/metadata_editor" data-style="mega" data-count-href="/alod83/metadata_editor/watchers" data-show-count="/repos/alod83/metadata_editor#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch alod83/metadata_editor on GitHub">Watch on GitHub</a>

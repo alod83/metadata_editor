@@ -16,6 +16,7 @@ switch($request) {
 		$died_in=$_REQUEST['died_in'];
 		$bio=$_REQUEST['bio'];
 		$bio=mysqli_real_escape_string($conn, $bio);
+		$bio=str_replace('\n',' ',$bio);
 		$linkwikiperson=$_REQUEST['linkwikiperson'];
 		$linkviafperson=$_REQUEST['linkviafperson'];
 		$picture=$_REQUEST['picture'];
@@ -54,6 +55,7 @@ switch($request) {
 		$geonames=$_REQUEST['geonames'];
 		$bio=$_REQUEST['bio'];
 		$bio=mysqli_real_escape_string($conn, $bio);
+		$bio=str_replace('\n',' ',$bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($ename=="") {
@@ -94,6 +96,7 @@ switch($request) {
 		$wiki=$_REQUEST['wiki'];
 		$bio=$_REQUEST['bio'];
 		$bio=mysqli_real_escape_string($conn, $bio);
+		$bio=str_replace('\n',' ',$bio);
 		$picture=$_REQUEST['picture'];
 
 		if ($etitle=="") {
