@@ -1296,17 +1296,32 @@ input[type=radio]:checked + label {
    margin-right: 10px;
 }
 
+#import_type{
+   width: 300px;
+   font-size: 0.8em;
+   outline: none;
+   border-radius: 0;
+   font-family: 'Open Sans', sans-serif;
+   text-align: center;
+}
+
 fieldset{
    max-width: 800px;
    margin: 20px auto;
    text-align: center;
+   border-color: #ededed;
+}
+
+#import_csv_container{
+   border: 2px solid #4d4d4d;
+   max-width: 90vw;
+   max-height: 400px;
+   overflow: scroll;
 }
 
 #import_csv_table{
    font-size: 0.6em;
    border-collapse: collapse;
-   max-width: 90vw;
-   margin-top: 30px;
 }
 
 #import_csv_table tbody tr:first-child{
@@ -1314,21 +1329,58 @@ fieldset{
 }
 
 #import_csv_table td{
-   padding: 2px;
+   padding: 5px;
    border: 1px solid #4d4d4d;
 }
 
 #import_csv_table .long_text{
-   width: 300px;
-   height: 50px;
+   width: 400px;
+   height: 40px;
    resize: none;
    outline: none;
 }
 
+#import_result_title{
+   margin-top: 40px;
+   display: inline-block;
+   vertical-align: middle;
+}
+
 #import_confirm, #import_cancel{
+   display: inline-block;
    width: 18px;
-   margin: 0 7px;
+   margin-left: 10px;
    cursor: pointer;
+   vertical-align: middle;
+   position: relative;
+   top: 10px;
+}
+
+#import_result{
+   font-size: 0.8em;
+   border-collapse: collapse;
+   width: 100%;
+   margin: auto;
+}
+
+#import_result tr{
+   width: 100%;
+   text-align: center;
+   border-bottom: 1px solid #939393;
+}
+
+#import_result td{
+   padding: 2px;
+}
+
+#import_result tr.success{
+   background-color: #CEE9CF;
+}
+#import_result tr.duplicate{
+   background-color: #FDECBA;
+}
+#import_result tr.error{
+   background-color: #F7CAC9;
 }
 
 #credits ul{

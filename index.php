@@ -80,7 +80,7 @@
 						<div onclick="adding_menu(2)" class="add_console_button">New Place</div>
 						<div onclick="adding_menu(3)" class="add_console_button">New CHO</div>
 						<span class="divider"></span>
-						<div onclick="import_csv()" class="add_console_button">Import CSV</div>
+						<div onclick="import_csv_page()" class="add_console_button">Import CSV</div>
 						</div></table>');
 					/*echo ("<table id='adding_menu'><tr>");
 					echo ('<td><a id="add_person" href="#2" onclick="adding_menu(1)">New Person</a></td>');

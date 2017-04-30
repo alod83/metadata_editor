@@ -3799,7 +3799,7 @@ function modify_data(request, key_id, action) {
 	}
 };
 
-function import_csv(){
+function import_csv_page(){
 	$.fn.fullpage.moveTo(2);
 	if (add_console==1) {
 		adding_menu_console();
@@ -3807,22 +3807,26 @@ function import_csv(){
 
 	var content='<div id="section2_container"><h1><img src="imgs/import.svg" id="import_img"/>Import CSV files into the Database</h1>'+
 	'<h4>Here you can import a .csv file into the Database. Be sure the structure of your file is correct.</h4>'+
-	'<p><b>Instructions</b>:</p>'+
-	'<ul id="import_instructions"><li>be sure your file contains the correct number of fields;</li>'+
-	'<li>the field delimiter must be a comma (,) and the row delimiter must be a end-of-line (\\n);</li>'+
-	'<li>the field must be enclosed in double quotes ("); all the double quotes (") within the fields must be escaped correctly;</li>'+
-	'<li>the first line of your file must include the table fields, you can copy the first line from the string below:</li></ul>'+
+	'<p><b><u>Instructions</b>:</u></p>'+
+	'<ul id="import_instructions"><li>be sure your file contains the <i>correct number of fields</i>;</li>'+
+	'<li>the <i>field delimiter</i> must be a comma (,); all the commas (,) within the fields must be escaped correctly;</li>'+
+	'<li>the the <i>row delimiter</i> must be a end-of-line (\\n); all the end-of-line (\\n) within the fields must be escaped correctly;</li>'+
+	'<li>the field must be <i>enclosed in double quotes</i> ("); all the double quotes (") within the fields must be escaped correctly;</li>'+
+	'<li>the first line of your file must include the <i>table fields</i>, you can copy the first line from the string below:</li></ul>'+
 	'<select id="import_select"><option>Persons</option><option>Places</option><option>CHO</option></select>'+
 	'<input id="import_example" readonly="readonly"></input>'+
 	'<span class="divider"></span>'+
+	'<div id="import_upload">'+
+	'<p><b><u>Which type do you want to import?</u></b></p>'+
+	'<select id="import_type"><option value="" disabled selected>Select your option</option><option value="person">Persons</option><option value="place">Places</option><option value="cho">CHO</option></select>'+
 	'<div id="dvImportSegments" class="fileupload ">'+
-	'<fieldset id="import_fieldset"><legend>Upload your CSV File</legend><input type="file" name="File Upload" id="CSVfile" accept=".csv" /></fieldset>'+
-	'</div></div>';
+	'<fieldset id="import_fieldset"><legend><b>Upload your CSV File</b></legend><input type="file" name="File Upload" id="CSVfile" accept=".csv" /></fieldset>'+
+	'</div></div></div>';
 
 	$('#section2 .content').html(content);
 
-	import_fields();
-	$('#import_select').change(function(){import_fields()});
+	import_firstline_example();
+	$('#import_select').change(function(){import_firstline_example()});
 
 	$('#CSVfile').change(function(){upload_CSV()});
 }
@@ -3834,26 +3838,41 @@ function upload_CSV() {
 	data.append('file', csvFile);
 	console.log(data.get("file"));
 	$.ajax({
-		url: 'import_csv4.php',
+		url: 'api/import_csv_verify.php',
 		type: 'POST',
 		processData: false,
 		contentType: false,
 		data: data,
 		success: function (result, status, jqxhr) {
 			$('#import_fieldset').remove();
-			$('#section2_container').append('<p><b>Is your file correct? Do you want to import it?</b></p><img id="import_confirm" src="imgs/check.svg" /><img id="import_cancel" src="imgs/cancel.svg" />')
-			$('#section2_container').append(result);
+			$('#import_upload').append('<p id="import_result_title"><b>Is your file correct? Do you want to import it?</b></p><img id="import_confirm" src="imgs/check.svg" /><img id="import_cancel" src="imgs/cancel.svg" />')
+			$('#import_upload').append(result);
 
-			$('#import_cancel').click(function(){import_csv()});
+			var type=$('#import_type').val();
+			$('#import_type').change(function(){
+				type=$('#import_type').val();
+			})
+
+			$('#import_confirm').click(function(){
+				if (type!=null){
+					data.append('request',type);
+					import_csv(data);
+				}
+				else {
+					$('#import_type').css("background-color","#E53F39");
+					setTimeout(function(){$('#import_type').removeAttr("style");},400)
+				}
+			});
+
+			$('#import_cancel').click(function(){import_csv_page()});
 		},
 		error: function (jqxhr, status, msg) {
 			//error code
 		}
 	});
-
 }
 
-function import_fields(){
+function import_firstline_example(){
 	var type=$('#import_select').val();
 	var input=$('#import_example');
 	if (type=="Persons"){
@@ -3865,4 +3884,22 @@ function import_fields(){
 	else if (type=="CHO"){
 		input.val("key_id,cho_id,original_title,english_title,author,author_id,place,creation_date,issue_date,type,language,linkwiki,bio,picture");
 	}
+}
+
+function import_csv(data){
+	$.ajax({
+		url: 'api/import_csv.php',
+		type: 'POST',
+		processData: false,
+		contentType: false,
+		data: data,
+		success: function (result, status, jqxhr) {
+			$('#import_upload').html("");
+			$('#import_upload').append("<p><b><u>Here's the result of the import</u></b></p>");
+			$('#import_upload').append(result);
+		},
+		error: function (jqxhr, status, msg) {
+			//error code
+		}
+	});
 }
