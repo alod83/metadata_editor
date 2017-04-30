@@ -66,8 +66,6 @@ h4{
    color: black;
 }
 
-
-
 #header_login {
    padding-right:15px;
    text-align:right;
@@ -337,11 +335,6 @@ h4{
 
 #adding_menu td a {
    color:#333;
-}
-
-#main-title {
-   font-size:3em;
-   margin-bottom:100px;
 }
 
 .divider {
@@ -1430,7 +1423,7 @@ fieldset{
    margin-bottom: 40px;
 }
 
-@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) { 
+@media screen and (max-width: 1400px), screen and (max-height: 980px){ 
 
    #header_title a {
       font-size: 1.35em;
