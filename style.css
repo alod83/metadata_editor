@@ -1423,7 +1423,7 @@ fieldset{
    margin-bottom: 40px;
 }
 
-@media screen and (max-width: 1400px), screen and (max-height: 980px){ 
+@media screen and (max-width: 1400px), screen and (max-height: 980px){
 
    #header_title a {
       font-size: 1.35em;
@@ -1461,6 +1461,11 @@ fieldset{
    #search_general_button, #header_info, #header_tutorial {
       font-size: .75em;
       line-height: .75em;
+   }
+
+   #data_input{
+      position: relative;
+      top: 10px;
    }
 
    #credits p, #credits li {
