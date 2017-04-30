@@ -3802,7 +3802,7 @@ function import_csv_page(){
 		adding_menu_console();
 	}
 
-	var content='<div id="section2_container"><h1><img src="imgs/import.svg" id="import_img"/>Import CSV files into the Database</h1>'+
+	var content='<div id="section2_container" class="import_section"><h1><img src="imgs/import.svg" id="import_img"/>Import CSV files into the Database</h1>'+
 	'<h4>Here you can import a .csv file into the Database. Be sure the structure of your file is correct.</h4>'+
 	'<p><b><u>Instructions</b>:</u></p>'+
 	'<ul id="import_instructions"><li>be sure your file contains the <i>correct number of fields</i>;</li>'+

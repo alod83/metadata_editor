@@ -1387,6 +1387,7 @@ fieldset{
    list-style-type: none;
    margin: auto;
    padding: 0;
+   margin-bottom: 40px;
 }
 
 #credits ul li {
@@ -1423,5 +1424,110 @@ fieldset{
    text-align: left;
    border-left: 1px solid #ededed;
    padding-left: 10px;
+}
+
+#credits_thanks {
+   margin-bottom: 40px;
+}
+
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) { 
+
+   #header_title a {
+      font-size: 1.35em;
+      line-height: 1.35em;
+   }
+
+   #header_addmenu, #header_collections {
+      font-size: 0.9em;
+      width: 120px;
+   }
+
+   #main_title{
+      font-size: 2.9em;
+   }
+
+   #main_subtitle {
+      font-size: 1.2em;
+   }
+
+   #search_text {
+      font-size: 1.5em;
+      width: 450px;
+      padding: 5px;
+      height: 50px;
+   }
+
+   label {
+      padding: 8px 23px;
+   }
+
+   #search_button {
+      width: 150px;
+   }
+
+   #search_general_button, #header_info, #header_tutorial {
+      font-size: .75em;
+      line-height: .75em;
+   }
+
+   #credits p, #credits li {
+      font-size: 0.8em;
+   }
+
+   #credits_me {
+      margin: 30px auto;
+   }
+
+   #credits_me img {
+      width: 120px;
+   }
+
+   #credits_thanks {
+      margin-bottom: 30px;
+   }
+
+   #credits ul{
+      margin-bottom: 30px;
+   }
+
+   .import_section h1{
+      margin-top: 0;
+   }
+
+   .import_section h4 {
+      margin-bottom: 15px;
+   }
+
+   .import_section p {
+      margin-top: 10px;
+      margin-bottom: 10px;
+   }
+
+   #import_instructions {
+      font-size: .8em;
+      margin-bottom: 10px;
+   }
+
+   #import_example {
+      line-height: 1em;
+      font-size: .8em;
+   }
+
+   .import_section .divider {
+      margin-top: 15px;
+      margin-bottom: 15px;
+   }
+
+   #import_csv_container{
+      max-height: 200px;
+   }
+
+   #import_result_title{
+      margin-top: 15px;
+   }
+
+   #import_confirm, #import_cancel {
+      top: 2px;
+   }
 
 }

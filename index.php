@@ -119,7 +119,7 @@
 			</div>
 		</div>
 		<div class="content slide" id="credits">
-			<h1><img src="imgs/question.svg">Info and Credits</h1>
+			<h1><img src="imgs/question.svg">Info & Credits</h1>
 			<h4>Here you can find informations and contacts about the creators of this application.</h4>
 			<div id="credits_me">
 				<img src="imgs/me.jpg" alt="">
@@ -129,8 +129,11 @@
 					<p><b>Website</b>: <a href="http://francescosacchini.com">francescosacchini.com</a></p>
 				</div>
 			</div>
-			<p>The project was realised during a traineeship and thesis work, in collaboration with the <b>Institute of Informatics and Telematics (IIT)</b> of the CNR in Pisa.</p>
-			<p>Special thanks to ing. <b>Angelica Lo Duca</b> for the collaboration and help in the application development. | Website: <a href="http://www.iit.cnr.it/angelica.loduca">www.iit.cnr.it/angelica.loduca</a></p><br/>
+			<div id="credits_thanks">
+				<p><b><u>Special thanks</u></b></p>
+				<p>The project was realised during a traineeship and thesis work, in collaboration with the <b>Institute of Informatics and Telematics (IIT)</b> of the CNR in Pisa.</p>
+				<p>Special thanks to ing. <b>Angelica Lo Duca</b> for the collaboration and help in the application development. | Website: <a href="http://www.iit.cnr.it/angelica.loduca">www.iit.cnr.it/angelica.loduca</a></p>
+			</div>
 			<p><b><u>Libraries used in this project</u></b></p>
 			<ul>
 				<li><a href="https://jquery.com/">jQuery</a></li>
@@ -138,7 +141,6 @@
 				<li><a href="https://stuk.github.io/jszip/">JSZip</a></li>
 				<li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
 			</ul>
-			<span class="divider"></span>
 			<a class="github-button" href="https://github.com/alod83/metadata_editor" data-style="mega" data-count-href="/alod83/metadata_editor/watchers" data-show-count="/repos/alod83/metadata_editor#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch alod83/metadata_editor on GitHub">Watch on GitHub</a>
 
 		</div>
