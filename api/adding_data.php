@@ -1,5 +1,6 @@
 <?php
 include ("config.php");
+header('Content-Type: text/plain');
 $conn=openDB();
 $request = $_REQUEST['request'];
 
@@ -9,8 +10,18 @@ switch($request) {
 		$name=$_REQUEST['name'];
 		$surname=$_REQUEST['surname'];
 		$name_surname=$name." ".$surname;
-		$was_born=$_REQUEST['was_born'];
-		$died=$_REQUEST['died'];
+		$was_born= empty($_REQUEST['was_born']) ? 'NULL' : $_REQUEST['was_born'];
+		$was_born_year = intval($was_born);
+		if(strpos($was_born, '-') !== FALSE)
+			$was_born_year = intval(substr($was_born, 0, strpos($was_born,'-'))); 
+		else
+			$was_born = 'NULL';	
+		$died= empty($_REQUEST['died']) ? 'NULL' : $_REQUEST['died'];
+		$died_year = intval($died);
+		if(strpos($died, '-') !== FALSE)
+			$died_year = intval(substr($died, 0, strpos($died, '-')));
+		else
+			$died = 'NULL';
 		$still_alive=$_REQUEST['still_alive'];
 		$born_in=$_REQUEST['born_in'];
 		$died_in=$_REQUEST['died_in'];
@@ -33,7 +44,7 @@ switch($request) {
 
 		$check=select($conn, "SELECT * FROM persons WHERE name_surname='$name_surname'");
 		if ($check==NULL) {
-			$sql= "INSERT INTO persons (key_id, name, surname, name_surname, was_born, was_born_year, died, died_year, still_alive, born_in, died_in, bio, linkwikiperson, linkviafperson, picture) VALUES('$key_id','$name','$surname','$name_surname','$was_born','$was_born','$died','$died','$still_alive','$born_in','$died_in','$bio','$linkwikiperson', '$linkviafperson', '$picture')";
+			$sql= "INSERT INTO persons (key_id, name, surname, name_surname, was_born, was_born_year, died, died_year, still_alive, born_in, died_in, bio, linkwikiperson, linkviafperson, picture) VALUES('$key_id','$name','$surname','$name_surname',$was_born,$was_born_year,$died,$died_year,'$still_alive','$born_in','$died_in','$bio','$linkwikiperson', '$linkviafperson', '$picture')";
 		    $res = mysqli_query($conn, $sql);
 		    if(!$res) die("Errore inserimento $sql".mysqli_errno($conn));
 		    else echo ("OK");

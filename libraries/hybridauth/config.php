@@ -12,7 +12,7 @@
 return
 		array(
 			//il base_url deve essere cambiato e impostato a seconda di dove è collocata la cartella coi file
-			"base_url" => "http://localhost/LPW/metadata_editor/libraries/hybridauth/",
+			"base_url" => "http://wafi.iit.cnr.it/angelica/apps/metadata_editor/libraries/hybridauth/",
 			"providers" => array(
 				// openid providers
 				"OpenID" => array(

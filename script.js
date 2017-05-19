@@ -120,8 +120,11 @@ function login() {
 
 						})
 					}
-					else {
-						var obj=jQuery.parseJSON(result);
+					else 
+{
+						//var obj=jQuery.parseJSON(result);
+var obj = result;
+console.log(obj);
 						var name=obj[0].firstname;
 						var email=obj[0].email;
 						console.log(name, email)

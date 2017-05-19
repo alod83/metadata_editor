@@ -1,5 +1,6 @@
 <?php
 include ("config.php");
+header('Content-Type: text/plain');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 $conn=openDB();
 $request = $_REQUEST['request'];
@@ -12,7 +13,17 @@ switch($request) {
 		$surname=$_REQUEST['surname'];
 		$name_surname=$name." ".$surname;
 		$was_born=$_REQUEST['was_born'];
+		$was_born_year = intval($was_born);
+                if(strpos($was_born, '-') !== FALSE)
+                        $was_born_year = intval(substr($was_born, 0, strpos($was_born, '-')));
+                else
+                        $died = null;
 		$died=$_REQUEST['died'];
+		$died_year = intval($died);
+                if(strpos($died, '-') !== FALSE)
+                        $died_year = intval(substr($died, 0, strpos($died, '-')));
+                else
+                        $died = null;
 		$still_alive=$_REQUEST['still_alive'];
 		$born_in=$_REQUEST['born_in'];
 		$died_in=$_REQUEST['died_in'];

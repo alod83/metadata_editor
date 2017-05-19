@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type: text/plain');
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //connection
 include ("config.php");

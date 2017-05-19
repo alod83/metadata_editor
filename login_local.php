@@ -13,6 +13,7 @@ if ($check!=null) {
 	if ($pass!="") {
 		$check_pass=select($conn, "SELECT * FROM users WHERE email='$email' && password='$password'");
 		if ($check_pass!=null) {
+			header('Content-Type: application/json');
 			echo json_encode($check_pass);
 		}
 		else {
