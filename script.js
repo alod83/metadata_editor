@@ -21,6 +21,10 @@ $(window).ready(function () {
 		$.fn.fullpage.moveTo(1, 2);
 	});
 
+	$('#header_tutorial').click(function(){
+		window.open('https://github.com/alod83/metadata_editor/wiki', '_blank');
+	});
+
 	$('#google').click(function(){
 		window.location.href='login.php?provider=google';
 	})
