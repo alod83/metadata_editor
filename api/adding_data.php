@@ -44,7 +44,7 @@ switch($request) {
 
 		$check=select($conn, "SELECT * FROM persons WHERE name_surname='$name_surname'");
 		if ($check==NULL) {
-			$sql= "INSERT INTO persons (key_id, name, surname, name_surname, was_born, was_born_year, died, died_year, still_alive, born_in, died_in, bio, linkwikiperson, linkviafperson, picture) VALUES('$key_id','$name','$surname','$name_surname',$was_born,$was_born_year,$died,$died_year,'$still_alive','$born_in','$died_in','$bio','$linkwikiperson', '$linkviafperson', '$picture')";
+			$sql= "INSERT INTO persons (key_id, name, surname, name_surname, was_born, was_born_year, died, died_year, still_alive, born_in, died_in, bio, linkwikiperson, linkviafperson, picture) VALUES('$key_id','$name','$surname','$name_surname','$was_born',$was_born_year,'$died',$died_year,'$still_alive','$born_in','$died_in','$bio','$linkwikiperson', '$linkviafperson', '$picture')";
 		    $res = mysqli_query($conn, $sql);
 		    if(!$res) die("Errore inserimento $sql".mysqli_errno($conn));
 		    else echo ("OK");
