@@ -91,6 +91,7 @@ switch($request) {
 		$keys=[];
 		$nomepersona = $_REQUEST['nomepersona'];
 		$cognomepersona = $_REQUEST['cognomepersona'];
+		$nome_cognome = $nomepersona ." ". $cognomepersona;
 		if($nomepersona!="" && $cognomepersona!="") {
 			$nomecompleto = $nomepersona ."_". $cognomepersona;
 			$nomecompleto = str_replace(' ', '_', $nomecompleto);
@@ -103,7 +104,7 @@ switch($request) {
 			$nomecompleto = $cognomepersona;
 		}
 
-		$keys['a1-'.$nomecompleto]=$nomecompleto;
+		$keys['a1-'.$nome_cognome]=$nome_cognome;
 		$keys['a2-'.$cognomepersona]=$cognomepersona;
 
 		//get VIAF id

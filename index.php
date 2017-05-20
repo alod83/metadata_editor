@@ -141,7 +141,7 @@
 				<li><a href="https://stuk.github.io/jszip/">JSZip</a></li>
 				<li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
 			</ul>
-			<a class="github-button" href="https://github.com/alod83/metadata_editor" data-style="mega" data-count-href="/alod83/metadata_editor/watchers" data-show-count="/repos/alod83/metadata_editor#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch alod83/metadata_editor on GitHub">Watch on GitHub</a>
+			<a class="github-button" href="https://github.com/alod83/metadata_editor" data-size="large" data-count-href="/alod83/metadata_editor/watchers" data-show-count="/repos/alod83/metadata_editor#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch alod83/metadata_editor on GitHub">Watch on GitHub</a>
 
 		</div>
 	</section>

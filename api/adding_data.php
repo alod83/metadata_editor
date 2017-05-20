@@ -10,18 +10,27 @@ switch($request) {
 		$name=$_REQUEST['name'];
 		$surname=$_REQUEST['surname'];
 		$name_surname=$name." ".$surname;
-		$was_born= empty($_REQUEST['was_born']) ? 'NULL' : $_REQUEST['was_born'];
+		$was_born=$_REQUEST['was_born'];
+		$was_born_year=intval($was_born);
+		$died=$_REQUEST['died'];
+		if ($died!=undefined){
+			$died_year=intval($died);
+		}
+		else {
+			$died_year=="";
+		}
+		/*$was_born= empty($_REQUEST['was_born']) ? 'NULL' : $_REQUEST['was_born'];
 		$was_born_year = intval($was_born);
 		if(strpos($was_born, '-') !== FALSE)
-			$was_born_year = intval(substr($was_born, 0, strpos($was_born,'-'))); 
+			$was_born_year = intval(substr($was_born, 0, strpos($was_born,'-')));
 		else
-			$was_born = 'NULL';	
+			$was_born = 'NULL';
 		$died= empty($_REQUEST['died']) ? 'NULL' : $_REQUEST['died'];
 		$died_year = intval($died);
 		if(strpos($died, '-') !== FALSE)
 			$died_year = intval(substr($died, 0, strpos($died, '-')));
 		else
-			$died = 'NULL';
+			$died = 'NULL';*/
 		$still_alive=$_REQUEST['still_alive'];
 		$born_in=$_REQUEST['born_in'];
 		$died_in=$_REQUEST['died_in'];
