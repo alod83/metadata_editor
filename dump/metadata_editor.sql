@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 20, 2017 at 10:30 AM
--- Server version: 10.1.10-MariaDB
--- PHP Version: 7.0.4
+-- Creato il: Mag 20, 2017 alle 17:33
+-- Versione del server: 10.1.10-MariaDB
+-- Versione PHP: 7.0.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cho`
+-- Struttura della tabella `cho`
 --
 
 CREATE TABLE `cho` (
@@ -46,7 +46,7 @@ CREATE TABLE `cho` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `collections`
+-- Struttura della tabella `collections`
 --
 
 CREATE TABLE `collections` (
@@ -58,7 +58,7 @@ CREATE TABLE `collections` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `coll_associations`
+-- Struttura della tabella `coll_associations`
 --
 
 CREATE TABLE `coll_associations` (
@@ -69,7 +69,7 @@ CREATE TABLE `coll_associations` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `persons`
+-- Struttura della tabella `persons`
 --
 
 CREATE TABLE `persons` (
@@ -78,9 +78,9 @@ CREATE TABLE `persons` (
   `name` text NOT NULL,
   `surname` text NOT NULL,
   `name_surname` text NOT NULL,
-  `was_born` date DEFAULT NULL,
+  `was_born` varchar(11) NOT NULL,
   `was_born_year` varchar(11) NOT NULL,
-  `died` date DEFAULT NULL,
+  `died` varchar(11) NOT NULL,
   `died_year` varchar(11) NOT NULL,
   `still_alive` tinyint(1) NOT NULL DEFAULT '0',
   `born_in` text NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE `persons` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `places`
+-- Struttura della tabella `places`
 --
 
 CREATE TABLE `places` (
@@ -116,7 +116,7 @@ CREATE TABLE `places` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struttura della tabella `users`
 --
 
 CREATE TABLE `users` (
@@ -128,72 +128,72 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Indexes for dumped tables
+-- Indici per le tabelle scaricate
 --
 
 --
--- Indexes for table `cho`
+-- Indici per le tabelle `cho`
 --
 ALTER TABLE `cho`
   ADD PRIMARY KEY (`cho_id`);
 
 --
--- Indexes for table `collections`
+-- Indici per le tabelle `collections`
 --
 ALTER TABLE `collections`
   ADD PRIMARY KEY (`coll_id`);
 
 --
--- Indexes for table `coll_associations`
+-- Indici per le tabelle `coll_associations`
 --
 ALTER TABLE `coll_associations`
   ADD PRIMARY KEY (`coll_id`,`elem_id`);
 
 --
--- Indexes for table `persons`
+-- Indici per le tabelle `persons`
 --
 ALTER TABLE `persons`
   ADD PRIMARY KEY (`person_id`);
 
 --
--- Indexes for table `places`
+-- Indici per le tabelle `places`
 --
 ALTER TABLE `places`
   ADD PRIMARY KEY (`location_id`);
 
 --
--- Indexes for table `users`
+-- Indici per le tabelle `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT for table `cho`
+-- AUTO_INCREMENT per la tabella `cho`
 --
 ALTER TABLE `cho`
   MODIFY `cho_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
--- AUTO_INCREMENT for table `collections`
+-- AUTO_INCREMENT per la tabella `collections`
 --
 ALTER TABLE `collections`
   MODIFY `coll_id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `persons`
+-- AUTO_INCREMENT per la tabella `persons`
 --
 ALTER TABLE `persons`
-  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1352;
+  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1355;
 --
--- AUTO_INCREMENT for table `places`
+-- AUTO_INCREMENT per la tabella `places`
 --
 ALTER TABLE `places`
   MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;

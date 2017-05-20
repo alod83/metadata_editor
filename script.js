@@ -113,7 +113,7 @@ function login() {
 						$('#login_console_password').val("");
 						$('#login_console_login').remove();
 						$('#login_console_password').after('<input class="login_console_input" id="login_console_repassword" type="password" placeholder="Repeat Password*"></input>'+
-							'<button class="login_console_button" id="login_console_createpassword">Create Password</button>');
+						'<button class="login_console_button" id="login_console_createpassword">Create Password</button>');
 						$('#login_console_createpassword').click(function(){
 							if ($('#login_console_password').val()==$('#login_console_repassword').val()) {
 								create_password();
@@ -125,10 +125,10 @@ function login() {
 						})
 					}
 					else
-{
+					{
 						//var obj=jQuery.parseJSON(result);
-var obj = result;
-console.log(obj);
+						var obj = result;
+						console.log(obj);
 						var name=obj[0].firstname;
 						var email=obj[0].email;
 						console.log(name, email)
@@ -1277,6 +1277,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, type, ShowLabel) {
 }
 
 function create_element(request, value) {
+	console.log("ciao");
 	var key_id=value.key_id;
 	var res="";
 	if (request=="person") {
@@ -1307,15 +1308,35 @@ function create_element(request, value) {
 		}
 		//se la data di morte non è riconosciuta dal database, verifico il campo still_alive
 		//altrimenti verifico se esiste l'anno di morte, e in caso negativo la segno come mancante
-		if (birthdate=="0000-00-00") {
+		if (birthdate.length>4){
+			birthdate=date_formatter(birthdate);
+		}
+		/*if (birthdate=="0000-00-00") {
 			birthdate=birthyear;
 		}
 		else {
 			birthdate=date_formatter(birthdate);
-		}
+		}*/
+
 		//se la data di morte non è riconosciuta dal database, verifico il campo still_alive
 		//altrimenti verifico se esiste l'anno di morte, e in caso negativo la segno come mancante
-		if (deathdate=="0000-00-00") {
+
+
+		if (deathdate==""){
+			if (still_alive=="1") {
+				deathdate="Still Alive";
+			}
+			else {
+				deathdate="--";
+			}
+		}
+		else {
+			if (deathdate.length>4){
+				deathdate=date_formatter(deathdate);
+			}
+		}
+
+		/*if (deathdate=="0000-00-00") {
 			if (still_alive=="1") {
 				deathdate="Still Alive";
 			}
@@ -1330,7 +1351,7 @@ function create_element(request, value) {
 		}
 		else {
 			deathdate=date_formatter(deathdate);
-		}
+		}*/
 
 		res+='<div class="result_content person" key_id="'+key_id+'">'+
 		'<div class="result_column1">'+
