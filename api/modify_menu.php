@@ -19,7 +19,7 @@ switch($request) {
 			<div class="label"><span>Birth Date* (yyyy-mm-dd)</span><span>Birth Place</span></div>
 			<div><input type="text" id="input_birthdate"></input>
 			<input type="text" id="input_birthplace"></input></div>
-			<div class="label"><span>Death Date (yyyy-mm-dd)</span><span>Birth Place</span></div>
+			<div class="label"><span>Death Date (yyyy-mm-dd)</span><span>Death Place</span></div>
 			<div><input type="text" id="input_deathdate"></input>
 			<input type="text" id="input_deathplace"></input></div>
 			<div><input type="checkbox" id="input_stillalive" /><span id="stillalive">Still Alive</span></div>
