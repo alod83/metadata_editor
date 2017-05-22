@@ -47,6 +47,7 @@
 		<table id="header_container">
 		<tr><td id="header_title"><a href="#1/0">&lt;WeME&gt; | The Web Metadata Editor</a></td>
 		<?php //show social buttons or user name
+		//fb button: <img id="facebook" src="imgs/facebook_login.png"/>
 				if (!isset($_SESSION['name'])) {
 					echo ('<td id="header_login">Welcome! Can you tell us about you?</td>');
 					echo ('<td id="header_login_console_opener">Login</td>');
@@ -62,7 +63,7 @@
 						<span id="login_console_divider"></span>
 						<span id="login_console_social">
 						<img id="google" src="imgs/google_login.png"/>
-						<img id="facebook" src="imgs/facebook_login.png"/>
+						
 						</span>
 
 					</div>');
