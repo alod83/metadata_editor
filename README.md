@@ -7,4 +7,4 @@ Within the field of Digital Humanities, a great effort has been made to digitise
 Read our [Wiki page](https://github.com/alod83/metadata_editor/wiki) with descriptions and tutorials.
 
 ## Online Version
-You can check out the online version of WeME right [here](#).
+You can check out the online version of WeME right [here](http://wafi.iit.cnr.it/angelica/apps/metadata_editor/#1).
